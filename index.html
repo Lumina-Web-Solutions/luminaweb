@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Web Solutions</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for the body, setting font and smooth scrolling */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f8fafc; /* Light blue-gray background for a clean look */
+        }
+        /* Ensure smooth scrolling behavior across the entire HTML document */
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        /* Custom keyframe animation for a subtle fade-in effect on elements */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Apply the fade-in animation with different delays for a staggered effect */
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        .animate-fade-in-delay-200 {
+            animation: fadeIn 1s ease-out 0.2s forwards;
+            opacity: 0; /* Start element hidden to animate in */
+        }
+        .animate-fade-in-delay-400 {
+            animation: fadeIn 1s ease-out 0.4s forwards;
+            opacity: 0; /* Start element hidden to animate in */
+        }
+
+
+        /* Custom shadow for a more pronounced depth effect */
+        .shadow-3xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 0, 0, 0.05) inset;
+        }
+
+
+        /* Background pattern for the home section, giving a digital feel */
+        .bg-digital-pattern {
+            background-image: url('https://placehold.co/1200x800/E0E7FF/6366F1?text=DATA+NETWORK'); /* Placeholder image with digital text and colors */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header section with navigation. Sticky top for consistent access. -->
+    <header class="bg-gradient-to-r from-blue-700 to-purple-800 text-white shadow-xl sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center">
+            <!-- Brand name/logo, linked to the home section -->
+            <a href="#home" class="text-4xl font-extrabold rounded-lg p-3 hover:bg-blue-800 transition-colors duration-300 transform hover:scale-105">
+                Lumina Web Solutions
+            </a>
+            <!-- Navigation links for different sections of the page -->
+            <div class="mt-5 md:mt-0 flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-8 text-xl font-medium">
+                <a href="#home" class="hover:text-blue-200 transition-colors duration-300 px-4 py-2 rounded-xl hover:bg-blue-800 transform hover:scale-105">Home</a>
+                <a href="#about" class="hover:text-blue-200 transition-colors duration-300 px-4 py-2 rounded-xl hover:bg-blue-800 transform hover:scale-105">About Us</a>
+                <a href="#contact" class="hover:text-blue-200 transition-colors duration-300 px-4 py-2 rounded-xl hover:bg-blue-800 transform hover:scale-105">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+        <!-- Home Section: Introduction to Lumina Web Solutions -->
+        <section id="home" class="relative py-24 px-6 min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
+            <!-- Background pattern for a digital aesthetic -->
+            <div class="absolute inset-0 bg-digital-pattern opacity-20"></div>
+            <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-16 z-10">
+                <div class="md:w-1/2 text-center md:text-left animate-fade-in">
+                    <h1 class="text-6xl md:text-7xl font-extrabold text-blue-900 leading-tight mb-8 drop-shadow-lg">
+                        Crafting Digital <br><span class="text-purple-700">Experiences</span> That Shine.
+                    </h1>
+                    <p class="text-xl text-gray-700 mb-10 max-w-xl mx-auto md:mx-0">
+                        We are your partners in innovation, designing and developing cutting-edge web solutions that captivate audiences and drive growth.
+                    </p>
+                    <!-- Call to action button linking to the contact section -->
+                    <a href="#contact" class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-10 rounded-full shadow-xl transform hover:scale-110 transition-all duration-300 ease-in-out text-lg">
+                        Start Your Project
+                    </a>
+                </div>
+                <div class="md:w-1/2 flex justify-center animate-fade-in-delay-200">
+                    <!-- Digital-themed image representing web development -->
+                    <img src="https://placehold.co/600x400/3B82F6/E0E7FF?text=WEB+DEVELOPMENT%0ACode+%26+Innovation" alt="Web Development Concept" class="rounded-3xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- About Us Section: Information about the company and its mission -->
+        <section id="about" class="py-24 px-6 bg-white overflow-hidden">
+            <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-16">
+                <div class="md:w-1/2 flex justify-center order-2 md:order-1 animate-fade-in-delay-200">
+                    <!-- Digital-themed image representing collaborative teamwork -->
+                    <img src="https://placehold.co/600x400/9333EA/FFFFFF?text=COLLABORATIVE%0ATEAMWORK" alt="Collaborative Teamwork" class="rounded-3xl shadow-2xl border-4 border-blue-200 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
+                </div>
+                <div class="md:w-1/2 text-center md:text-left order-1 md:order-2 animate-fade-in">
+                    <h2 class="text-5xl md:text-6xl font-extrabold text-purple-800 mb-8 drop-shadow-md">
+                        Our Passion, Your Success.
+                    </h2>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        Lumina Web Solutions is a collective of visionary web developers, creative designers, and strategic digital marketers. Our journey is fueled by a commitment to build not just websites, but powerful digital platforms that resonate with your audience.
+                    </p>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        We blend cutting-edge technology with aesthetic brilliance to ensure your online presence is both highly functional and uniquely captivating. Our focus is on delivering tailor-made solutions that reflect your brand's essence and drive tangible results.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact Us Section: Form for user inquiries -->
+        <section id="contact" class="py-24 px-6 bg-gradient-to-br from-indigo-50 to-blue-50">
+            <div class="container mx-auto max-w-4xl animate-fade-in-delay-400">
+                <h2 class="text-5xl md:text-6xl font-extrabold text-center text-blue-800 mb-14 drop-shadow-md">
+                    Let's Build Something Amazing
+                </h2>
+                <div class="bg-white p-10 md:p-16 rounded-3xl shadow-3xl border border-gray-200 transform hover:scale-100 transition-transform duration-300">
+                    <p class="text-center text-xl text-gray-700 mb-10 leading-relaxed">
+                        Ready to elevate your online presence? Drop us a message below, or reach out directly via email: <br>
+                        <a href="mailto:luminawebsolutions@gmail.com" class="text-blue-600 hover:text-blue-800 hover:underline font-semibold transition-colors duration-200 text-lg">luminawebsolutions@gmail.com</a>
+                    </p>
+
+
+                    <!-- Contact Form -->
+                    <form id="contactForm" class="space-y-8">
+                        <div>
+                            <label for="name" class="block text-xl font-semibold text-gray-800 mb-3">Your Name</label>
+                            <input type="text" id="name" name="name" required
+                                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg placeholder-gray-400">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-xl font-semibold text-gray-800 mb-3">Your Email</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg placeholder-gray-400">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-xl font-semibold text-gray-800 mb-3">Subject</label>
+                            <input type="text" id="subject" name="subject" required
+                                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg placeholder-gray-400">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-xl font-semibold text-gray-800 mb-3">Your Message</label>
+                            <textarea id="message" name="message" rows="7" required
+                                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg placeholder-gray-400"></textarea>
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <button type="submit"
+                                class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center text-xl"
+                                id="submitButton">
+                                <span id="buttonText">Send Message</span>
+                                <!-- Loading spinner SVG for visual feedback during form submission -->
+                                <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-6 w-6 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.062 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <!-- Message display area for form submission feedback (success/error) -->
+                        <div id="formMessage" class="mt-6 text-center text-xl font-semibold"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- Footer section with copyright information -->
+    <footer class="bg-gray-900 text-white py-10 px-6">
+        <div class="container mx-auto text-center text-lg">
+            <p>&copy; <span id="currentYear"></span> Lumina Web Solutions. All rights reserved.</p>
+            <p class="mt-2 text-gray-400">Innovating digital experiences, one solution at a time.</p>
+        </div>
+    </footer>
+
+
+    <!-- Firebase SDKs and custom JavaScript for functionality -->
+    <script type="module">
+        // Firebase SDK imports from CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+
+        // Firebase configuration provided by the user
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfoF5wirR_tuY1v3HF4CK_gYFg6FYE5j4",
+            authDomain: "lumina-web-solutions.firebaseapp.com",
+            projectId: "lumina-web-solutions",
+            storageBucket: "lumina-web-solutions.firebasestorage.app",
+            messagingSenderId: "954351357327",
+            appId: "1:954351357327:web:63c25d3413fed614430ffa",
+            measurementId: "G-82LVSDSGPM"
+        };
+
+
+        // Initialize Firebase services
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+
+        // Retrieve global variables for app ID and auth token, with fallbacks for local testing
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+
+        let userId = 'anonymous'; // Initialize userId as anonymous, will be updated upon authentication
+
+
+        /**
+         * Authenticates the user using a custom token if available, otherwise anonymously.
+         * Sets the global userId based on the authenticated user.
+         */
+        async function authenticateUser() {
+            try {
+                if (initialAuthToken) {
+                    // Attempt to sign in with the custom token provided by the environment
+                    const userCredential = await signInWithCustomToken(auth, initialAuthToken);
+                    userId = userCredential.user.uid;
+                    console.log("Signed in with custom token. User ID:", userId);
+                } else {
+                    // If no custom token, sign in anonymously
+                    const userCredential = await signInAnonymously(auth);
+                    userId = userCredential.user.uid;
+                    console.log("Signed in anonymously. User ID:", userId);
+                }
+            } catch (error) {
+                // If custom token sign-in fails, try anonymous sign-in as a fallback
+                console.warn("Custom token sign-in failed:", error.message);
+                try {
+                    const userCredential = await signInAnonymously(auth);
+                    userId = userCredential.user.uid;
+                    console.log("Signed in anonymously after custom token failure. User ID:", userId);
+                } catch (anonError) {
+                    // If both custom token and anonymous sign-in fail, fall back to a random UUID
+                    console.error("Anonymous sign-in also failed:", anonError);
+                    userId = crypto.randomUUID(); // Fallback for environments where auth might fail
+                    console.log("Using fallback random UUID for user ID:", userId);
+                }
+            }
+        }
+
+
+        // Call the authentication function immediately when the script loads
+        authenticateUser();
+
+
+        // Dynamically set the current year in the footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+
+        // Get references to DOM elements for the contact form
+        const contactForm = document.getElementById('contactForm');
+        const submitButton = document.getElementById('submitButton');
+        const buttonText = document.getElementById('buttonText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const formMessage = document.getElementById('formMessage');
+
+
+        // Add an event listener for the contact form submission
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent the default form submission behavior (page reload)
+
+
+            // Show loading indicator and disable the submit button
+            buttonText.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+            submitButton.disabled = true;
+            formMessage.textContent = ''; // Clear any previous messages
+
+
+            // Retrieve form input values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+
+            try {
+                // Ensure authentication is complete before attempting to write to Firestore.
+                // This listener ensures that `userId` is properly set before proceeding.
+                if (!auth.currentUser) {
+                    console.warn("Authentication not ready, waiting for auth state to change...");
+                    await new Promise(resolve => {
+                        const unsubscribe = auth.onAuthStateChanged(user => {
+                            if (user) {
+                                userId = user.uid; // Update userId with the authenticated user's ID
+                                unsubscribe(); // Stop listening once authenticated
+                                resolve();
+                            }
+                        });
+                    });
+                }
+
+
+                // Define the Firestore collection path for user-specific contact messages.
+                // This adheres to the Firebase security rules for private data.
+                const messagesCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/contactMessages`);
+
+
+                // Add the contact message to the Firestore database
+                await addDoc(messagesCollectionRef, {
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message,
+                    timestamp: new Date(), // Record the submission time
+                    userId: userId // Store the user ID with the message
+                });
+
+
+                // Display a success message and reset the form
+                formMessage.textContent = 'Your message has been sent successfully!';
+                formMessage.classList.remove('text-red-600');
+                formMessage.classList.add('text-green-600');
+                contactForm.reset(); // Clear all form fields
+            } catch (error) {
+                // Log and display an error message if submission fails
+                console.error("Error adding document to Firestore: ", error);
+                formMessage.textContent = 'Failed to send message. Please try again later.';
+                formMessage.classList.remove('text-green-600');
+                formMessage.classList.add('text-red-600');
+            } finally {
+                // Hide loading indicator and re-enable the submit button regardless of success or failure
+                buttonText.classList.remove('hidden');
+                loadingSpinner.classList.add('hidden');
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
