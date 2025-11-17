@@ -1,344 +1,455 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Web Solutions</title>
-    <!-- Tailwind CSS CDN for modern styling -->
+    <title>Lumina Web Solutions - Digital Experiences That Shine</title>
+    
+    <!-- UPDATED: Favicon from your GitHub URL -->
+    <link rel="icon" href="https://raw.githubusercontent.com/alfin-7736/Lumina-Compas/6f60b90340697b796accdf20cc4b1f7059c93c27/Screenshot%202025-09-28%20121335.png">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter for clean typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- GSAP (GreenSock Animation Platform) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
     <style>
-        /* Base styles for the body, setting font and smooth scrolling */
+        /* Custom Styles */
         body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-            background-color: #f8fafc; /* Light blue-gray background for a clean look */
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            cursor: none; /* Hide default cursor */
         }
-        /* Ensure smooth scrolling behavior across the entire HTML document */
-        html {
-            scroll-behavior: smooth;
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #0a0a0a;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #fff;
+            overflow: hidden;
+        }
+        
+        /* UPDATED: Preloader Logo Image */
+        #preloader .preloader-logo {
+            width: 300px;
+            max-width: 80%;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: preload-anim 2.5s ease-in-out;
+        }
+
+        @keyframes preload-anim {
+            0% { opacity: 0; transform: scale(0.9); }
+            30% { opacity: 1; transform: scale(1); }
+            70% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.9); }
         }
 
 
-        /* Custom keyframe animation for a subtle fade-in effect on elements */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Custom Cursor */
+        .cursor-follower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 123, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s linear;
+            backdrop-filter: blur(2px);
         }
-        /* Apply the fade-in animation with different delays for a staggered effect */
-        .animate-fade-in {
-            animation: fadeIn 1s ease-out forwards;
+        .cursor-follower.hovered {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 123, 255, 0.2);
         }
-        .animate-fade-in-delay-200 {
-            animation: fadeIn 1s ease-out 0.2s forwards;
-            opacity: 0; /* Start element hidden to animate in */
+        .hero-bg {
+            background-color: #0a0a0a;
+            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
         }
-        .animate-fade-in-delay-400 {
-            animation: fadeIn 1s ease-out 0.4s forwards;
-            opacity: 0; /* Start element hidden to animate in */
+        .hero-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.15) 0%, rgba(0, 123, 255, 0) 60%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
         }
-
-
-        /* Custom shadow for a more pronounced depth effect */
-        .shadow-3xl {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 10px rgba(0, 0, 0, 0.05) inset;
+        .accent-blue {
+            color: #007BFF;
         }
-
-
-        /* Background pattern for the home section, giving a digital feel */
-        .bg-digital-pattern {
-            background-image: url('https://placehold.co/1200x800/E0E7FF/6366F1?text=DATA+NETWORK'); /* Placeholder image with digital text and colors */
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+        .btn-primary {
+            background-color: #007BFF;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
+        }
+        .service-card {
+            background-color: #121212;
+            border: 1px solid #222;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(0, 123, 255, 0.1) 0%, rgba(0, 123, 255, 0) 70%);
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+        .service-card:hover {
+            border-color: #007BFF;
+            transform: translateY(-5px);
+        }
+        .service-card:hover:before {
+            opacity: 1;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 1.25rem;
+            top: 1.25rem;
+            bottom: -1.25rem;
+            width: 2px;
+            background-color: #333;
+            transform: translateX(-50%);
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        .timeline-dot {
+            border: 2px solid #333;
+            transition: all 0.3s ease;
+        }
+        .timeline-item.in-view .timeline-dot {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
+        .section-title-line {
+            width: 80px;
+            height: 3px;
+            background-color: #007BFF;
+            border-radius: 2px;
+            margin-top: 8px;
+        }
+        .clip-text {
+            overflow: hidden;
         }
     </style>
 </head>
-<body class="text-gray-800">
-    <!-- Header section with navigation. Sticky top for consistent access. -->
-    <header class="bg-gradient-to-r from-blue-700 to-purple-800 text-white shadow-xl sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center">
-            <!-- Brand name/logo, linked to the home section -->
-            <a href="#home" class="text-4xl font-extrabold rounded-lg p-3 hover:bg-blue-800 transition-colors duration-300 transform hover:scale-105">
-                Lumina Web Solutions
-            </a>
-            <!-- Navigation links for different sections of the page -->
-            <div class="mt-5 md:mt-0 flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-8 text-xl font-medium">
-                <a href="#home" class="hover:text-blue-200 transition-colors duration-300 px-4 py-2 rounded-xl hover:bg-blue-800 transform hover:scale-105">Home</a>
-                <a href="#about" class="hover:text-blue-200 transition-colors duration-300 px-4 py-2 rounded-xl hover:bg-blue-800 transform hover:scale-105">About Us</a>
-                <a href="#contact" class="hover:text-blue-200 transition-colors duration-300 px-4 py-2 rounded-xl hover:bg-blue-800 transform hover:scale-105">Contact Us</a>
+<body class="antialiased opacity-0">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <!-- UPDATED: Use image for preloader -->
+        <img src="https://raw.githubusercontent.com/alfin-7736/Lumina-Compas/6f60b90340697b796accdf20cc4b1f7059c93c27/Screenshot%202025-09-28%20121335.png" alt="Lumina Web Solutions Logo" class="preloader-logo">
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-follower"></div>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider magnetic-item">
+                LUMINA<span class="accent-blue">.</span>
             </div>
-        </nav>
+            <nav class="hidden md:flex items-center space-x-2">
+                <a href="#services" class="hover:text-white transition-colors px-4 py-2 magnetic-item">Services</a>
+                <a href="#process" class="hover:text-white transition-colors px-4 py-2 magnetic-item">Process</a>
+                <a href="#contact" class="bg-gray-800/50 border border-gray-700 px-5 py-2 rounded-full hover:bg-gray-700 transition-colors magnetic-item">Contact</a>
+            </nav>
+            <div class="md:hidden">
+                <!-- Mobile menu button can be added here -->
+            </div>
+        </div>
     </header>
 
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
+        <div class="hero-glow"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tighter">
+                <div class="clip-text"><span class="hero-line block">We Build Digital</span></div>
+                <div class="clip-text"><span class="hero-line block">Experiences That</span></div>
+                <div class="clip-text"><span class="hero-line block accent-blue">Shine.</span></div>
+            </h1>
+            <p class="hero-subtext mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-400">
+                Lumina Web Solutions crafts stunning websites and powerful digital strategies to elevate your brand in an ever-evolving online world.
+            </p>
+            <div class="hero-cta mt-10">
+                <a href="#contact" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg shadow-lg inline-block magnetic-item">
+                    Let's Create
+                </a>
+            </div>
+        </div>
+    </section>
 
-    <main>
-        <!-- Home Section: Introduction to Lumina Web Solutions -->
-        <section id="home" class="relative py-24 px-6 min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
-            <!-- Background pattern for a digital aesthetic -->
-            <div class="absolute inset-0 bg-digital-pattern opacity-20"></div>
-            <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-16 z-10">
-                <div class="md:w-1/2 text-center md:text-left animate-fade-in">
-                    <h1 class="text-6xl md:text-7xl font-extrabold text-blue-900 leading-tight mb-8 drop-shadow-lg">
-                        Crafting Digital <br><span class="text-purple-700">Experiences</span> That Shine.
-                    </h1>
-                    <p class="text-xl text-gray-700 mb-10 max-w-xl mx-auto md:mx-0">
-                        We are your partners in innovation, designing and developing cutting-edge web solutions that captivate audiences and drive growth.
-                    </p>
-                    <!-- Call to action button linking to the contact section -->
-                    <a href="#contact" class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-10 rounded-full shadow-xl transform hover:scale-110 transition-all duration-300 ease-in-out text-lg">
-                        Start Your Project
-                    </a>
+    <!-- Services Section -->
+    <section id="services" class="py-20 md:py-32 bg-[#101010]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title text-3xl md:text-4xl font-bold">What We Craft</h2>
+                <div class="section-title-line mx-auto"></div>
+            </div>
+            <!-- UPDATED: Grid layout to be 2x2 on medium screens and up -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Service Card 1 -->
+                <div class="service-card p-8 rounded-lg">
+                    <div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg></div>
+                    <h3 class="text-2xl font-semibold mb-3">Web Design & Development</h3>
+                    <p class="text-gray-400">Creating visually stunning, user-friendly websites that are fast, responsive, and built for performance from the ground up.</p>
                 </div>
-                <div class="md:w-1/2 flex justify-center animate-fade-in-delay-200">
-                    <!-- Digital-themed image representing web development -->
-                    <img src="https://placehold.co/600x400/3B82F6/E0E7FF?text=WEB+DEVELOPMENT%0ACode+%26+Innovation" alt="Web Development Concept" class="rounded-3xl shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                <!-- Service Card 2 -->
+                <div class="service-card p-8 rounded-lg">
+                    <div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg></div>
+                    <h3 class="text-2xl font-semibold mb-3">eCommerce Solutions</h3>
+                    <p class="text-gray-400">Building robust online stores with seamless checkout experiences, secure payment gateways, and easy inventory management.</p>
+                </div>
+                <!-- Service Card 3 -->
+                <div class="service-card p-8 rounded-lg">
+                    <div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
+                    <h3 class="text-2xl font-semibold mb-3">SEO & Digital Marketing</h3>
+                    <p class="text-gray-400">Boosting your online visibility, driving organic traffic, and converting visitors into loyal customers through proven strategies.</p>
+                </div>
+                <!-- NEW: Service Card 4 -->
+                <div class="service-card p-8 rounded-lg">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 21v-1.5M15.75 3v1.5m0 16.5v-1.5M12 4.5v-1.5m0 18v-1.5" />
+                          <path d="M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5zM12 15a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3">AI & Web Applications</h3>
+                    <p class="text-gray-400">Developing intelligent, custom web apps like Lumina Compass that use AI to provide real value and advanced functionality.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
+    <!-- Process Section -->
+    <section id="process" class="py-20 md:py-32 bg-[#101010]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="section-title text-3xl md:text-4xl font-bold">The Lumina Method</h2>
+                <div class="section-title-line mx-auto"></div>
+            </div>
+            <div class="max-w-2xl mx-auto">
+                <!-- Timeline Items -->
+                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">1</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Discover</h3><p class="text-gray-400">We start by diving deep into your brand, understanding your goals, target audience, and unique challenges to build a solid foundation for the project.</p></div></div>
+                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">2</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Design</h3><p class="text-gray-400">Our team crafts a beautiful, user-centric design prototype. We focus on creating an intuitive and engaging experience that reflects your brand's identity.</p></div></div>
+                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">3</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Develop</h3><p class="text-gray-400">Our expert developers bring the design to life with clean, efficient code. We ensure your website is fast, secure, and perfectly functional on all devices.</p></div></div>
+                <div class="timeline-item relative pl-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">4</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Launch</h3><p class="text-gray-400">After rigorous testing, we deploy your site and ensure a flawless launch. We provide support and guidance to make sure your transition is seamless.</p></div></div>
+            </div>
+        </div>
+    </section>
 
-        <!-- About Us Section: Information about the company and its mission -->
-        <section id="about" class="py-24 px-6 bg-white overflow-hidden">
-            <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-16">
-                <div class="md:w-1/2 flex justify-center order-2 md:order-1 animate-fade-in-delay-200">
-                    <!-- Digital-themed image representing collaborative teamwork -->
-                    <img src="https://placehold.co/600x400/9333EA/FFFFFF?text=COLLABORATIVE%0ATEAMWORK" alt="Collaborative Teamwork" class="rounded-3xl shadow-2xl border-4 border-blue-200 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-                </div>
-                <div class="md:w-1/2 text-center md:text-left order-1 md:order-2 animate-fade-in">
-                    <h2 class="text-5xl md:text-6xl font-extrabold text-purple-800 mb-8 drop-shadow-md">
-                        Our Passion, Your Success.
-                    </h2>
-                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
-                        Lumina Web Solutions is a collective of visionary web developers, creative designers, and strategic digital marketers. Our journey is fueled by a commitment to build not just websites, but powerful digital platforms that resonate with your audience.
-                    </p>
-                    <p class="text-lg text-gray-700 leading-relaxed">
-                        We blend cutting-edge technology with aesthetic brilliance to ensure your online presence is both highly functional and uniquely captivating. Our focus is on delivering tailor-made solutions that reflect your brand's essence and drive tangible results.
-                    </p>
+    <!-- CTA Section -->
+    <section id="contact" class="py-20 md:py-32">
+        <div class="container mx-auto px-6 text-center">
+            <div class="clip-text"><h2 class="section-title text-4xl md:text-5xl font-extrabold mb-4">Ready to Illuminate</h2></div>
+            <div class="clip-text"><h2 class="section-title text-4xl md:text-5xl font-extrabold mb-8">Your Brand?</h2></div>
+            <p class="cta-subtitle max-w-xl mx-auto text-lg text-gray-400 mb-10">
+                Let's discuss how we can build something amazing together. Reach out to us for a free consultation.
+            </p>
+            <a href="mailto:luminawebsolutions@gmail.com" class="btn-primary text-white font-semibold py-4 px-10 rounded-full text-lg shadow-lg inline-block magnetic-item">
+                Start Your Project
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#101010] text-gray-400">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="md:col-span-1"><h3 class="text-2xl font-bold text-white mb-4">LUMINA<span class="accent-blue">.</span></h3><p>Crafting digital experiences that captivate, engage, and convert. We are your partners in digital growth.</p></div>
+                <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div><h4 class="font-semibold text-white mb-4">Navigate</h4><ul><li class="mb-2"><a href="#services" class="hover:text-white magnetic-item">Services</a></li><li class="mb-2"><a href="#process" class="hover:text-white magnetic-item">Process</a></li><li class="mb-2"><a href="#contact" class="hover:text-white magnetic-item">Contact</a></li></ul></div>
+                    <div><h4 class="font-semibold text-white mb-4">Contact Us</h4><ul><li class="mb-2"><a href="mailto:luminawebsolutions@gmail.com" class="hover:text-white magnetic-item">luminawebsolutions@gmail.com</a></li><li class="mb-2">Lumina Web Solutions,<br>Changanassery</li></ul></div>
+                    <div><h4 class="font-semibold text-white mb-4">Follow Us</h4><div class="flex space-x-4"><a href="#" class="hover:text-white magnetic-item">FB</a><a href="#" class="hover:text-white magnetic-item">IN</a><a href="#" class="hover:text-white magnetic-item">TW</a></div></div>
                 </div>
             </div>
-        </section>
-
-
-        <!-- Contact Us Section: Form for user inquiries -->
-        <section id="contact" class="py-24 px-6 bg-gradient-to-br from-indigo-50 to-blue-50">
-            <div class="container mx-auto max-w-4xl animate-fade-in-delay-400">
-                <h2 class="text-5xl md:text-6xl font-extrabold text-center text-blue-800 mb-14 drop-shadow-md">
-                    Let's Build Something Amazing
-                </h2>
-                <div class="bg-white p-10 md:p-16 rounded-3xl shadow-3xl border border-gray-200 transform hover:scale-100 transition-transform duration-300">
-                    <p class="text-center text-xl text-gray-700 mb-10 leading-relaxed">
-                        Ready to elevate your online presence? Drop us a message below, or reach out directly via email: <br>
-                        <a href="mailto:luminawebsolutions@gmail.com" class="text-blue-600 hover:text-blue-800 hover:underline font-semibold transition-colors duration-200 text-lg">luminawebsolutions@gmail.com</a>
-                    </p>
-
-
-                    <!-- Contact Form -->
-                    <form id="contactForm" class="space-y-8">
-                        <div>
-                            <label for="name" class="block text-xl font-semibold text-gray-800 mb-3">Your Name</label>
-                            <input type="text" id="name" name="name" required
-                                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg placeholder-gray-400">
-                        </div>
-                        <div>
-                            <label for="email" class="block text-xl font-semibold text-gray-800 mb-3">Your Email</label>
-                            <input type="email" id="email" name="email" required
-                                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg placeholder-gray-400">
-                        </div>
-                        <div>
-                            <label for="subject" class="block text-xl font-semibold text-gray-800 mb-3">Subject</label>
-                            <input type="text" id="subject" name="subject" required
-                                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg placeholder-gray-400">
-                        </div>
-                        <div>
-                            <label for="message" class="block text-xl font-semibold text-gray-800 mb-3">Your Message</label>
-                            <textarea id="message" name="message" rows="7" required
-                                class="w-full px-6 py-4 border-2 border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-lg placeholder-gray-400"></textarea>
-                        </div>
-                        <div class="flex items-center justify-center">
-                            <button type="submit"
-                                class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center text-xl"
-                                id="submitButton">
-                                <span id="buttonText">Send Message</span>
-                                <!-- Loading spinner SVG for visual feedback during form submission -->
-                                <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-6 w-6 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.062 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <!-- Message display area for form submission feedback (success/error) -->
-                        <div id="formMessage" class="mt-6 text-center text-xl font-semibold"></div>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-
-
-    <!-- Footer section with copyright information -->
-    <footer class="bg-gray-900 text-white py-10 px-6">
-        <div class="container mx-auto text-center text-lg">
-            <p>&copy; <span id="currentYear"></span> Lumina Web Solutions. All rights reserved.</p>
-            <p class="mt-2 text-gray-400">Innovating digital experiences, one solution at a time.</p>
+            <div class="mt-16 pt-8 border-t border-gray-800 text-center text-sm"><p>&copy; 2024 Lumina Web Solutions. All Rights Reserved.</p></div>
         </div>
     </footer>
 
 
-    <!-- Firebase SDKs and custom JavaScript for functionality -->
-    <script type="module">
-        // Firebase SDK imports from CDN
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+            // --- Preloader Animation ---
+            // UPDATED: Simplified preloader logic to work with CSS animation
+            const preloaderTl = gsap.timeline({delay: 2.5}); // Delay matches CSS animation
+            preloaderTl.to('#preloader', {
+                y: '-100%',
+                duration: 1,
+                ease: 'power3.inOut'
+            }).to('body', {
+                opacity: 1,
+                duration: 0.5
+            }, "-=0.5");
 
 
-        // Firebase configuration provided by the user
-        const firebaseConfig = {
-            apiKey: "AIzaSyDfoF5wirR_tuY1v3HF4CK_gYFg6FYE5j4",
-            authDomain: "lumina-web-solutions.firebaseapp.com",
-            projectId: "lumina-web-solutions",
-            storageBucket: "lumina-web-solutions.firebasestorage.app",
-            messagingSenderId: "954351357327",
-            appId: "1:954351357327:web:63c25d3413fed614430ffa",
-            measurementId: "G-82LVSDSGPM"
-        };
+            // --- Custom Cursor Follower ---
+            const cursorFollower = document.querySelector('.cursor-follower');
+            gsap.set(cursorFollower, { xPercent: -50, yPercent: -50 });
+            let mouseX = 0, mouseY = 0;
+            window.addEventListener('mousemove', e => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                gsap.to(cursorFollower, 0.3, { x: mouseX, y: mouseY, ease: "power2.out" });
+            });
+            const interactiveElements = document.querySelectorAll('a, button, .magnetic-item, .service-card');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorFollower.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => cursorFollower.classList.remove('hovered'));
+            });
 
+            // --- Magnetic Items ---
+            const magneticItems = document.querySelectorAll('.magnetic-item');
+            magneticItems.forEach(item => {
+                item.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(this, { x: x * 0.2, y: y * 0.2, duration: 0.8, ease: 'power3.out' });
+                });
+                item.addEventListener('mouseleave', function() {
+                    gsap.to(this, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
+                });
+            });
 
-        // Initialize Firebase services
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-
-        // Retrieve global variables for app ID and auth token, with fallbacks for local testing
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-
-        let userId = 'anonymous'; // Initialize userId as anonymous, will be updated upon authentication
-
-
-        /**
-         * Authenticates the user using a custom token if available, otherwise anonymously.
-         * Sets the global userId based on the authenticated user.
-         */
-        async function authenticateUser() {
-            try {
-                if (initialAuthToken) {
-                    // Attempt to sign in with the custom token provided by the environment
-                    const userCredential = await signInWithCustomToken(auth, initialAuthToken);
-                    userId = userCredential.user.uid;
-                    console.log("Signed in with custom token. User ID:", userId);
-                } else {
-                    // If no custom token, sign in anonymously
-                    const userCredential = await signInAnonymously(auth);
-                    userId = userCredential.user.uid;
-                    console.log("Signed in anonymously. User ID:", userId);
+            // --- Header Scroll Effect ---
+            const header = document.getElementById('header');
+            ScrollTrigger.create({
+                trigger: 'body',
+                start: 'top -80',
+                end: 99999,
+                onUpdate: (self) => {
+                    const isScrolled = self.progress > 0;
+                    if (self.direction === 1 && isScrolled) {
+                        gsap.to(header, { y: '-100%', duration: 0.4, ease: 'power2.inOut' });
+                    } else {
+                        gsap.to(header, { y: '0%', duration: 0.4, ease: 'power2.inOut' });
+                    }
+                },
+                onToggle: self => {
+                    if (self.isActive) {
+                        header.classList.add('bg-[#0a0a0a]/80', 'backdrop-blur-sm', 'shadow-lg');
+                    } else {
+                        header.classList.remove('bg-[#0a0a0a]/80', 'backdrop-blur-sm', 'shadow-lg');
+                    }
                 }
-            } catch (error) {
-                // If custom token sign-in fails, try anonymous sign-in as a fallback
-                console.warn("Custom token sign-in failed:", error.message);
-                try {
-                    const userCredential = await signInAnonymously(auth);
-                    userId = userCredential.user.uid;
-                    console.log("Signed in anonymously after custom token failure. User ID:", userId);
-                } catch (anonError) {
-                    // If both custom token and anonymous sign-in fail, fall back to a random UUID
-                    console.error("Anonymous sign-in also failed:", anonError);
-                    userId = crypto.randomUUID(); // Fallback for environments where auth might fail
-                    console.log("Using fallback random UUID for user ID:", userId);
-                }
-            }
-        }
+            });
 
+            // --- Hero Section Animation ---
+            preloaderTl.from('.hero-line', {
+                yPercent: 100,
+                duration: 1,
+                stagger: 0.1,
+                ease: 'power3.out',
+            }, "start");
+            preloaderTl.from(['.hero-subtext', '.hero-cta'], {
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                stagger: 0.2,
+            }, "start+=0.6");
 
-        // Call the authentication function immediately when the script loads
-        authenticateUser();
-
-
-        // Dynamically set the current year in the footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-
-        // Get references to DOM elements for the contact form
-        const contactForm = document.getElementById('contactForm');
-        const submitButton = document.getElementById('submitButton');
-        const buttonText = document.getElementById('buttonText');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const formMessage = document.getElementById('formMessage');
-
-
-        // Add an event listener for the contact form submission
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent the default form submission behavior (page reload)
-
-
-            // Show loading indicator and disable the submit button
-            buttonText.classList.add('hidden');
-            loadingSpinner.classList.remove('hidden');
-            submitButton.disabled = true;
-            formMessage.textContent = ''; // Clear any previous messages
-
-
-            // Retrieve form input values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-
-
-            try {
-                // Ensure authentication is complete before attempting to write to Firestore.
-                // This listener ensures that `userId` is properly set before proceeding.
-                if (!auth.currentUser) {
-                    console.warn("Authentication not ready, waiting for auth state to change...");
-                    await new Promise(resolve => {
-                        const unsubscribe = auth.onAuthStateChanged(user => {
-                            if (user) {
-                                userId = user.uid; // Update userId with the authenticated user's ID
-                                unsubscribe(); // Stop listening once authenticated
-                                resolve();
-                            }
-                        });
+            // --- Section Title & Content Reveals ---
+            const sections = gsap.utils.toArray('section');
+            sections.forEach(section => {
+                const sectionTitles = section.querySelectorAll('.section-title');
+                const sectionContent = section.querySelectorAll('.service-card, .timeline-item, .cta-subtitle, .btn-primary:not(.hero-cta a)');
+                
+                sectionTitles.forEach(title => {
+                    gsap.from(title, {
+                        scrollTrigger: { trigger: title, start: 'top 85%', toggleActions: 'play none none none' },
+                        yPercent: 100, duration: 0.8, ease: 'power3.out'
                     });
-                }
-
-
-                // Define the Firestore collection path for user-specific contact messages.
-                // This adheres to the Firebase security rules for private data.
-                const messagesCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/contactMessages`);
-
-
-                // Add the contact message to the Firestore database
-                await addDoc(messagesCollectionRef, {
-                    name: name,
-                    email: email,
-                    subject: subject,
-                    message: message,
-                    timestamp: new Date(), // Record the submission time
-                    userId: userId // Store the user ID with the message
+                    gsap.from(title.nextElementSibling, {
+                        scrollTrigger: { trigger: title, start: 'top 85%', toggleActions: 'play none none none' },
+                        scaleX: 0, duration: 1, ease: 'power3.out', delay: 0.3
+                    });
                 });
 
+                if(sectionContent.length > 0) {
+                    gsap.from(sectionContent, {
+                        scrollTrigger: { trigger: section, start: 'top 75%', toggleActions: 'play none none none' },
+                        y: 60, opacity: 0, duration: 1, stagger: 0.1, ease: 'power3.out'
+                    });
+                }
+            });
 
-                // Display a success message and reset the form
-                formMessage.textContent = 'Your message has been sent successfully!';
-                formMessage.classList.remove('text-red-600');
-                formMessage.classList.add('text-green-600');
-                contactForm.reset(); // Clear all form fields
-            } catch (error) {
-                // Log and display an error message if submission fails
-                console.error("Error adding document to Firestore: ", error);
-                formMessage.textContent = 'Failed to send message. Please try again later.';
-                formMessage.classList.remove('text-green-600');
-                formMessage.classList.add('text-red-600');
-            } finally {
-                // Hide loading indicator and re-enable the submit button regardless of success or failure
-                buttonText.classList.remove('hidden');
-                loadingSpinner.classList.add('hidden');
-                submitButton.disabled = false;
-            }
+            // --- Timeline Animation ---
+            const timelineItems = gsap.utils.toArray('.timeline-item');
+            timelineItems.forEach(item => {
+                gsap.to(item, {
+                    scrollTrigger: { trigger: item, start: 'top 70%', end: 'bottom 70%', toggleClass: 'in-view' }
+                });
+            });
+
+            // --- Service Card Mouse Glow Effect ---
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--x', `${(x / rect.width) * 100}%`);
+                    card.style.setProperty('--y', `${(y / rect.height) * 100}%`);
+                });
+            });
+
+            // --- Smooth Scrolling for Nav Links ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        gsap.to(window, { duration: 1.5, scrollTo: targetElement, ease: 'power2.inOut' });
+                    }
+                });
+            });
+
+            // Ensure ScrollTrigger recalculates on resize
+            window.addEventListener('resize', () => ScrollTrigger.refresh());
         });
     </script>
 </body>
