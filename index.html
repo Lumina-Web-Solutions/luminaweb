@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumina Web Solutions - Digital Experiences That Shine</title>
     
-    <!-- UPDATED: Favicon from your GitHub URL -->
+    <!-- Favicon from your GitHub URL -->
     <link rel="icon" href="https://raw.githubusercontent.com/alfin-7736/Lumina-Compas/6f60b90340697b796accdf20cc4b1f7059c93c27/Screenshot%202025-09-28%20121335.png">
     
     <!-- Tailwind CSS -->
@@ -16,21 +16,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- GSAP (GreenSock Animation Platform) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <!-- Icons Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
         /* Custom Styles */
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #0a0a0a;
             color: #e0e0e0;
             overflow-x: hidden;
-            cursor: none; /* Hide default cursor */
+            /* RE-ENABLED default cursor */
+            cursor: auto;
+            /* RE-ENABLED visibility */
+            opacity: 1;
         }
-        /* Preloader */
+        /* SIMPLE CSS Preloader */
         #preloader {
             position: fixed;
             top: 0;
@@ -42,48 +46,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            color: #fff;
-            overflow: hidden;
+            opacity: 1;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            visibility: visible;
         }
-        
-        /* UPDATED: Preloader Logo Image */
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
         #preloader .preloader-logo {
             width: 300px;
             max-width: 80%;
-            opacity: 0;
-            transform: scale(0.9);
-            animation: preload-anim 2.5s ease-in-out;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        @keyframes preload-anim {
-            0% { opacity: 0; transform: scale(0.9); }
-            30% { opacity: 1; transform: scale(1); }
-            70% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0.9); }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.95); }
         }
 
-
-        /* Custom Cursor */
-        .cursor-follower {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 30px;
-            height: 30px;
-            background-color: rgba(0, 123, 255, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s linear;
-            backdrop-filter: blur(2px);
-        }
-        .cursor-follower.hovered {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(0, 123, 255, 0.2);
-        }
         .hero-bg {
             background-color: #0a0a0a;
             background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
@@ -103,6 +84,8 @@
         .accent-blue {
             color: #007BFF;
         }
+        
+        /* ROBUST CSS Button Hover Effects */
         .btn-primary {
             background-color: #007BFF;
             transition: all 0.3s ease;
@@ -112,6 +95,13 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
         }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fff;
+        }
+        
         .service-card {
             background-color: #121212;
             border: 1px solid #222;
@@ -119,23 +109,9 @@
             position: relative;
             overflow: hidden;
         }
-        .service-card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(0, 123, 255, 0.1) 0%, rgba(0, 123, 255, 0) 70%);
-            transition: opacity 0.5s ease;
-            opacity: 0;
-        }
         .service-card:hover {
             border-color: #007BFF;
             transform: translateY(-5px);
-        }
-        .service-card:hover:before {
-            opacity: 1;
         }
         .timeline-item::before {
             content: '';
@@ -154,10 +130,7 @@
             border: 2px solid #333;
             transition: all 0.3s ease;
         }
-        .timeline-item.in-view .timeline-dot {
-            background-color: #007BFF;
-            border-color: #007BFF;
-        }
+        
         .section-title-line {
             width: 80px;
             height: 3px;
@@ -168,29 +141,37 @@
         .clip-text {
             overflow: hidden;
         }
+        
+        /* CSS Scroll Animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.645, 0.045, 0.355, 1), transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
-<body class="antialiased opacity-0">
+<body class="antialiased">
 
     <!-- Preloader -->
     <div id="preloader">
-        <!-- UPDATED: Use image for preloader -->
         <img src="https://raw.githubusercontent.com/alfin-7736/Lumina-Compas/6f60b90340697b796accdf20cc4b1f7059c93c27/Screenshot%202025-09-28%20121335.png" alt="Lumina Web Solutions Logo" class="preloader-logo">
     </div>
-
-    <!-- Custom Cursor -->
-    <div class="cursor-follower"></div>
 
     <!-- Header -->
     <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-wider magnetic-item">
+            <div class="text-2xl font-bold tracking-wider">
                 LUMINA<span class="accent-blue">.</span>
             </div>
-            <nav class="hidden md:flex items-center space-x-2">
-                <a href="#services" class="hover:text-white transition-colors px-4 py-2 magnetic-item">Services</a>
-                <a href="#process" class="hover:text-white transition-colors px-4 py-2 magnetic-item">Process</a>
-                <a href="#contact" class="bg-gray-800/50 border border-gray-700 px-5 py-2 rounded-full hover:bg-gray-700 transition-colors magnetic-item">Contact</a>
+            <nav class="hidden md:flex items-center space-x-4">
+                <a href="#services" class="nav-link px-4 py-2 text-gray-300">Services</a>
+                <a href="#why-us" class="nav-link px-4 py-2 text-gray-300">Why Us</a>
+                <a href="#process" class="nav-link px-4 py-2 text-gray-300">Process</a>
+                <a href="#contact" class="bg-gray-800/50 border border-gray-700 px-5 py-2 rounded-full text-gray-300 nav-link">Contact</a>
             </nav>
             <div class="md:hidden">
                 <!-- Mobile menu button can be added here -->
@@ -211,7 +192,7 @@
                 Lumina Web Solutions crafts stunning websites and powerful digital strategies to elevate your brand in an ever-evolving online world.
             </p>
             <div class="hero-cta mt-10">
-                <a href="#contact" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg shadow-lg inline-block magnetic-item">
+                <a href="#contact" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg shadow-lg inline-block">
                     Let's Create
                 </a>
             </div>
@@ -219,49 +200,76 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-20 md:py-32 bg-[#101010]">
+    <!-- FIXED: Reduced the vertical padding to fix the "gap" -->
+    <section id="services" class="py-16 md:py-24 bg-gray-800 fade-in-section">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="section-title text-3xl md:text-4xl font-bold">What We Craft</h2>
                 <div class="section-title-line mx-auto"></div>
             </div>
-            <!-- UPDATED: Grid layout to be 2x2 on medium screens and up -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Service Card 1 -->
                 <div class="service-card p-8 rounded-lg">
                     <div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg></div>
                     <h3 class="text-2xl font-semibold mb-3">Web Design & Development</h3>
                     <p class="text-gray-400">Creating visually stunning, user-friendly websites that are fast, responsive, and built for performance from the ground up.</p>
                 </div>
-                <!-- Service Card 2 -->
                 <div class="service-card p-8 rounded-lg">
                     <div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg></div>
                     <h3 class="text-2xl font-semibold mb-3">eCommerce Solutions</h3>
                     <p class="text-gray-400">Building robust online stores with seamless checkout experiences, secure payment gateways, and easy inventory management.</p>
                 </div>
-                <!-- Service Card 3 -->
                 <div class="service-card p-8 rounded-lg">
                     <div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
                     <h3 class="text-2xl font-semibold mb-3">SEO & Digital Marketing</h3>
                     <p class="text-gray-400">Boosting your online visibility, driving organic traffic, and converting visitors into loyal customers through proven strategies.</p>
                 </div>
-                <!-- NEW: Service Card 4 -->
                 <div class="service-card p-8 rounded-lg">
-                    <div class="mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 21v-1.5M15.75 3v1.5m0 16.5v-1.5M12 4.5v-1.5m0 18v-1.5" />
-                          <path d="M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5zM12 15a.75.75 0 100-1.5.75.75 0 000 1.5z" />
-                        </svg>
-                    </div>
+                    <div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 21v-1.5M15.75 3v1.5m0 16.5v-1.5M12 4.5v-1.5m0 18v-1.5" /><path d="M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5zM12 15a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg></div>
                     <h3 class="text-2xl font-semibold mb-3">AI & Web Applications</h3>
                     <p class="text-gray-400">Developing intelligent, custom web apps like Lumina Compass that use AI to provide real value and advanced functionality.</p>
                 </div>
             </div>
         </div>
     </section>
+    
+    <!-- NEW: "Why Choose Us" Section -->
+    <section id="why-us" class="py-16 md:py-24 bg-[#101010] fade-in-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title text-3xl md:text-4xl font-bold">Why Choose Lumina?</h2>
+                <div class="section-title-line mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+                <!-- Feature 1 -->
+                <div class="text-center">
+                    <div class="flex items-center justify-center h-16 w-16 bg-gray-800 rounded-full mx-auto mb-6">
+                        <i class="fas fa-rocket text-2xl accent-blue"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3">Modern & Fast</h3>
+                    <p class="text-gray-400">We build websites using the latest, high-speed technology to ensure your site is fast, secure, and future-proof.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="text-center">
+                    <div class="flex items-center justify-center h-16 w-16 bg-gray-800 rounded-full mx-auto mb-6">
+                        <i class="fas fa-mobile-alt text-2xl accent-blue"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3">Fully Responsive</h3>
+                    <p class="text-gray-400">Your website will look and function perfectly on all devices, from the smallest mobile phone to the largest desktop monitor.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="text-center">
+                    <div class="flex items-center justify-center h-16 w-16 bg-gray-800 rounded-full mx-auto mb-6">
+                        <i class="fas fa-user-check text-2xl accent-blue"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3">Personalized Service</h3>
+                    <p class="text-gray-400">As a dedicated freelancer, you get direct, personal communication and a website tailored 100% to your unique vision.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Process Section -->
-    <section id="process" class="py-20 md:py-32 bg-[#101010]">
+    <section id="process" class="py-16 md:py-24 bg-gray-800 fade-in-section">
         <div class="container mx-auto px-6">
             <div class="text-center mb-20">
                 <h2 class="section-title text-3xl md:text-4xl font-bold">The Lumina Method</h2>
@@ -269,24 +277,24 @@
             </div>
             <div class="max-w-2xl mx-auto">
                 <!-- Timeline Items -->
-                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">1</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Discover</h3><p class="text-gray-400">We start by diving deep into your brand, understanding your goals, target audience, and unique challenges to build a solid foundation for the project.</p></div></div>
-                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">2</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Design</h3><p class="text-gray-400">Our team crafts a beautiful, user-centric design prototype. We focus on creating an intuitive and engaging experience that reflects your brand's identity.</p></div></div>
-                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">3</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Develop</h3><p class="text-gray-400">Our expert developers bring the design to life with clean, efficient code. We ensure your website is fast, secure, and perfectly functional on all devices.</p></div></div>
+                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">1</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Discover</h3><p class="text-gray-400">We start by diving deep into your brand, understanding your goals, target audience, and unique challenges to build a solid foundation.</p></div></div>
+                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">2</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Design</h3><p class="text-gray-400">Our team crafts a beautiful, user-centric design prototype. We focus on creating an intuitive and engaging experience that reflects your brand.</p></div></div>
+                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">3</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Develop</h3><p class="text-gray-400">Our expert developers bring the design to life with clean, efficient code, ensuring your site is fast, secure, and perfectly functional.</p></div></div>
                 <div class="timeline-item relative pl-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">4</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Launch</h3><p class="text-gray-400">After rigorous testing, we deploy your site and ensure a flawless launch. We provide support and guidance to make sure your transition is seamless.</p></div></div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section id="contact" class="py-20 md:py-32">
+    <section id="contact" class="py-20 md:py-32 fade-in-section">
         <div class="container mx-auto px-6 text-center">
             <div class="clip-text"><h2 class="section-title text-4xl md:text-5xl font-extrabold mb-4">Ready to Illuminate</h2></div>
             <div class="clip-text"><h2 class="section-title text-4xl md:text-5xl font-extrabold mb-8">Your Brand?</h2></div>
             <p class="cta-subtitle max-w-xl mx-auto text-lg text-gray-400 mb-10">
                 Let's discuss how we can build something amazing together. Reach out to us for a free consultation.
-            </p>
-            <a href="mailto:luminawebsolutions@gmail.com" class="btn-primary text-white font-semibold py-4 px-10 rounded-full text-lg shadow-lg inline-block magnetic-item">
-                Start Your Project
+            </D>
+            <a href="mailto:luminawebsolutions@gmail.com" class="btn-primary text-white font-semibold py-4 px-10 rounded-full text-lg shadow-lg inline-block">
+                Contact Us
             </a>
         </div>
     </section>
@@ -297,9 +305,9 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="md:col-span-1"><h3 class="text-2xl font-bold text-white mb-4">LUMINA<span class="accent-blue">.</span></h3><p>Crafting digital experiences that captivate, engage, and convert. We are your partners in digital growth.</p></div>
                 <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div><h4 class="font-semibold text-white mb-4">Navigate</h4><ul><li class="mb-2"><a href="#services" class="hover:text-white magnetic-item">Services</a></li><li class="mb-2"><a href="#process" class="hover:text-white magnetic-item">Process</a></li><li class="mb-2"><a href="#contact" class="hover:text-white magnetic-item">Contact</a></li></ul></div>
-                    <div><h4 class="font-semibold text-white mb-4">Contact Us</h4><ul><li class="mb-2"><a href="mailto:luminawebsolutions@gmail.com" class="hover:text-white magnetic-item">luminawebsolutions@gmail.com</a></li><li class="mb-2">Lumina Web Solutions,<br>Changanassery</li></ul></div>
-                    <div><h4 class="font-semibold text-white mb-4">Follow Us</h4><div class="flex space-x-4"><a href="#" class="hover:text-white magnetic-item">FB</a><a href="#" class="hover:text-white magnetic-item">IN</a><a href="#" class="hover:text-white magnetic-item">TW</a></div></div>
+                    <div><h4 class="font-semibold text-white mb-4">Navigate</h4><ul><li class="mb-2"><a href="#services" class="nav-link text-gray-400">Services</a></li><li class="mb-2"><a href="#why-us" class="nav-link text-gray-400">Why Us</a></li><li class="mb-2"><a href="#process" class="nav-link text-gray-400">Process</a></li><li class="mb-2"><a href="#contact" class="nav-link text-gray-400">Contact</a></li></ul></div>
+                    <div><h4 class="font-semibold text-white mb-4">Contact Us</h4><ul><li class="mb-2"><a href="mailto:luminawebsolutions@gmail.com" class="nav-link text-gray-400">luminawebsolutions@gmail.com</a></li><li class="mb-2">Lumina Web Solutions,<br>Changanassery</li></ul></div>
+                    <div><h4 class="font-semibold text-white mb-4">Follow Us</h4><div class="flex space-x-4"><a href="#" class="nav-link text-gray-400">FB</a><a href="#" class="nav-link text-gray-400">IN</a><a href="#" class="nav-link text-gray-400">TW</a></div></div>
                 </div>
             </div>
             <div class="mt-16 pt-8 border-t border-gray-800 text-center text-sm"><p>&copy; 2024 Lumina Web Solutions. All Rights Reserved.</p></div>
@@ -309,119 +317,63 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
-            // --- Preloader Animation ---
-            // UPDATED: Simplified preloader logic to work with CSS animation
-            const preloaderTl = gsap.timeline({delay: 2.5}); // Delay matches CSS animation
-            preloaderTl.to('#preloader', {
-                y: '-100%',
-                duration: 1,
-                ease: 'power3.inOut'
-            }).to('body', {
-                opacity: 1,
-                duration: 0.5
-            }, "-=0.5");
-
-
-            // --- Custom Cursor Follower ---
-            const cursorFollower = document.querySelector('.cursor-follower');
-            gsap.set(cursorFollower, { xPercent: -50, yPercent: -50 });
-            let mouseX = 0, mouseY = 0;
-            window.addEventListener('mousemove', e => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                gsap.to(cursorFollower, 0.3, { x: mouseX, y: mouseY, ease: "power2.out" });
-            });
-            const interactiveElements = document.querySelectorAll('a, button, .magnetic-item, .service-card');
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => cursorFollower.classList.add('hovered'));
-                el.addEventListener('mouseleave', () => cursorFollower.classList.remove('hovered'));
+            
+            // --- Preloader ---
+            const preloader = document.getElementById('preloader');
+            window.addEventListener('load', () => {
+                preloader.classList.add('loaded');
             });
 
-            // --- Magnetic Items ---
-            const magneticItems = document.querySelectorAll('.magnetic-item');
-            magneticItems.forEach(item => {
-                item.addEventListener('mousemove', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    gsap.to(this, { x: x * 0.2, y: y * 0.2, duration: 0.8, ease: 'power3.out' });
-                });
-                item.addEventListener('mouseleave', function() {
-                    gsap.to(this, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
-                });
-            });
-
-            // --- Header Scroll Effect ---
+            // --- Sticky Header ---
             const header = document.getElementById('header');
-            ScrollTrigger.create({
-                trigger: 'body',
-                start: 'top -80',
-                end: 99999,
-                onUpdate: (self) => {
-                    const isScrolled = self.progress > 0;
-                    if (self.direction === 1 && isScrolled) {
-                        gsap.to(header, { y: '-100%', duration: 0.4, ease: 'power2.inOut' });
+            let lastScrollY = window.scrollY;
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.classList.add('bg-[#0a0a0a]/80', 'backdrop-blur-sm', 'shadow-lg');
+                    if (window.scrollY > lastScrollY) {
+                        // Scrolling Down
+                        header.style.transform = 'translateY(-100%)';
                     } else {
-                        gsap.to(header, { y: '0%', duration: 0.4, ease: 'power2.inOut' });
+                        // Scrolling Up
+                        header.style.transform = 'translateY(0)';
                     }
-                },
-                onToggle: self => {
-                    if (self.isActive) {
-                        header.classList.add('bg-[#0a0a0a]/80', 'backdrop-blur-sm', 'shadow-lg');
-                    } else {
-                        header.classList.remove('bg-[#0a0a0a]/80', 'backdrop-blur-sm', 'shadow-lg');
-                    }
+                    lastScrollY = window.scrollY;
+                } else {
+                    header.classList.remove('bg-[#0a0a0a]/80', 'backdrop-blur-sm', 'shadow-lg');
+                    header.style.transform = 'translateY(0)';
                 }
             });
-
-            // --- Hero Section Animation ---
-            preloaderTl.from('.hero-line', {
-                yPercent: 100,
-                duration: 1,
-                stagger: 0.1,
-                ease: 'power3.out',
-            }, "start");
-            preloaderTl.from(['.hero-subtext', '.hero-cta'], {
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'power3.out',
-                stagger: 0.2,
-            }, "start+=0.6");
-
-            // --- Section Title & Content Reveals ---
-            const sections = gsap.utils.toArray('section');
-            sections.forEach(section => {
-                const sectionTitles = section.querySelectorAll('.section-title');
-                const sectionContent = section.querySelectorAll('.service-card, .timeline-item, .cta-subtitle, .btn-primary:not(.hero-cta a)');
-                
-                sectionTitles.forEach(title => {
-                    gsap.from(title, {
-                        scrollTrigger: { trigger: title, start: 'top 85%', toggleActions: 'play none none none' },
-                        yPercent: 100, duration: 0.8, ease: 'power3.out'
-                    });
-                    gsap.from(title.nextElementSibling, {
-                        scrollTrigger: { trigger: title, start: 'top 85%', toggleActions: 'play none none none' },
-                        scaleX: 0, duration: 1, ease: 'power3.out', delay: 0.3
-                    });
+            
+            // --- CSS Scroll Animations ---
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
                 });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the section is visible
+            });
 
-                if(sectionContent.length > 0) {
-                    gsap.from(sectionContent, {
-                        scrollTrigger: { trigger: section, start: 'top 75%', toggleActions: 'play none none none' },
-                        y: 60, opacity: 0, duration: 1, stagger: 0.1, ease: 'power3.out'
-                    });
-                }
+            sections.forEach(section => {
+                observer.observe(section);
             });
 
             // --- Timeline Animation ---
-            const timelineItems = gsap.utils.toArray('.timeline-item');
-            timelineItems.forEach(item => {
-                gsap.to(item, {
-                    scrollTrigger: { trigger: item, start: 'top 70%', end: 'bottom 70%', toggleClass: 'in-view' }
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    }
                 });
+            }, {
+                threshold: 0.5 // Trigger when 50% of the item is visible
+            });
+            
+            timelineItems.forEach(item => {
+                timelineObserver.observe(item);
             });
 
             // --- Service Card Mouse Glow Effect ---
@@ -436,20 +388,6 @@
                 });
             });
 
-            // --- Smooth Scrolling for Nav Links ---
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        gsap.to(window, { duration: 1.5, scrollTo: targetElement, ease: 'power2.inOut' });
-                    }
-                });
-            });
-
-            // Ensure ScrollTrigger recalculates on resize
-            window.addEventListener('resize', () => ScrollTrigger.refresh());
         });
     </script>
 </body>
