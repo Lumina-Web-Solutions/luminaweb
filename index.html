@@ -22,17 +22,15 @@
     <style>
         /* Custom Styles */
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* Enables smooth scrolling for anchor links */
         }
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #0a0a0a;
             color: #e0e0e0;
             overflow-x: hidden;
-            /* RE-ENABLED default cursor */
             cursor: auto;
-            /* RE-ENABLED visibility */
-            opacity: 1;
+            opacity: 1; /* Site is visible by default */
         }
         /* SIMPLE CSS Preloader */
         #preloader {
@@ -47,7 +45,8 @@
             justify-content: center;
             align-items: center;
             opacity: 1;
-            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            /* UPDATED: Removed delay for a faster fade-out */
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
             visibility: visible;
         }
         #preloader.loaded {
@@ -57,7 +56,8 @@
         #preloader .preloader-logo {
             width: 300px;
             max-width: 80%;
-            animation: pulse 1.5s ease-in-out infinite;
+            /* UPDATED: Pulse infinitely until fade-out is triggered */
+            animation: pulse 1.5s ease-in-out infinite; 
         }
 
         @keyframes pulse {
@@ -97,6 +97,24 @@
         }
         .nav-link {
             transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #007BFF;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
         }
         .nav-link:hover {
             color: #fff;
@@ -130,6 +148,10 @@
             border: 2px solid #333;
             transition: all 0.3s ease;
         }
+        .timeline-item.is-visible .timeline-dot {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
         
         .section-title-line {
             width: 80px;
@@ -152,6 +174,11 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* NEW: Mobile Menu Styles */
+        #mobile-menu {
+            transition: opacity 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -167,17 +194,30 @@
             <div class="text-2xl font-bold tracking-wider">
                 LUMINA<span class="accent-blue">.</span>
             </div>
+            <!-- Desktop Nav -->
             <nav class="hidden md:flex items-center space-x-4">
                 <a href="#services" class="nav-link px-4 py-2 text-gray-300">Services</a>
                 <a href="#why-us" class="nav-link px-4 py-2 text-gray-300">Why Us</a>
                 <a href="#process" class="nav-link px-4 py-2 text-gray-300">Process</a>
-                <a href="#contact" class="bg-gray-800/50 border border-gray-700 px-5 py-2 rounded-full text-gray-300 nav-link">Contact</a>
+                <a href="#contact" class="bg-gray-800/50 border border-gray-700 px-5 py-2 rounded-full text-gray-300 nav-link hover:bg-gray-700">Contact</a>
             </nav>
+            <!-- NEW: Mobile Menu Button -->
             <div class="md:hidden">
-                <!-- Mobile menu button can be added here -->
+                <button id="mobile-menu-btn" class="text-white z-50 relative">
+                    <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
         </div>
     </header>
+
+    <!-- NEW: Mobile Menu Overlay -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-black bg-opacity-90 z-40 flex flex-col items-center justify-center space-y-8">
+        <a href="#services" class="text-3xl font-bold text-gray-300 nav-link">Services</a>
+        <a href="#why-us" class="text-3xl font-bold text-gray-300 nav-link">Why Us</a>
+        <a href="#process" class="text-3xl font-bold text-gray-300 nav-link">Process</a>
+        <a href="#contact" class="text-3xl font-bold text-gray-300 nav-link">Contact</a>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero-bg min-h-screen flex items-center justify-center text-center overflow-hidden pt-20">
@@ -200,7 +240,6 @@
     </section>
 
     <!-- Services Section -->
-    <!-- FIXED: Reduced the vertical padding to fix the "gap" -->
     <section id="services" class="py-16 md:py-24 bg-gray-800 fade-in-section">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
@@ -232,7 +271,7 @@
         </div>
     </section>
     
-    <!-- NEW: "Why Choose Us" Section -->
+    <!-- "Why Choose Us" Section -->
     <section id="why-us" class="py-16 md:py-24 bg-[#101010] fade-in-section">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
@@ -292,7 +331,8 @@
             <div class="clip-text"><h2 class="section-title text-4xl md:text-5xl font-extrabold mb-8">Your Brand?</h2></div>
             <p class="cta-subtitle max-w-xl mx-auto text-lg text-gray-400 mb-10">
                 Let's discuss how we can build something amazing together. Reach out to us for a free consultation.
-            </D>
+            </p>
+            <!-- UPDATED: Ensured this is a mailto link -->
             <a href="mailto:luminawebsolutions@gmail.com" class="btn-primary text-white font-semibold py-4 px-10 rounded-full text-lg shadow-lg inline-block">
                 Contact Us
             </a>
@@ -321,7 +361,10 @@
             // --- Preloader ---
             const preloader = document.getElementById('preloader');
             window.addEventListener('load', () => {
-                preloader.classList.add('loaded');
+                // Set timeout to match CSS animation
+                setTimeout(() => {
+                    preloader.classList.add('loaded');
+                }, 1250); // UPDATED: 3000ms to 1250ms
             });
 
             // --- Sticky Header ---
@@ -365,7 +408,7 @@
             const timelineObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('in-view');
+                        entry.target.classList.add('is-visible');
                     }
                 });
             }, {
@@ -385,6 +428,41 @@
                     const y = e.clientY - rect.top;
                     card.style.setProperty('--x', `${(x / rect.width) * 100}%`);
                     card.style.setProperty('--y', `${(y / rect.height) * 100}%`);
+                });
+            });
+
+            // --- NEW: Mobile Menu Toggle ---
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('menu-icon-open');
+            const iconClose = document.getElementById('menu-icon-close');
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+
+            function toggleMenu() {
+                mobileMenu.classList.toggle('hidden');
+                iconOpen.classList.toggle('hidden');
+                iconClose.classList.toggle('hidden');
+            }
+
+            menuBtn.addEventListener('click', toggleMenu);
+            // Close menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+
+            // --- NEW: Smooth Scrolling for ALL anchor links ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
 
