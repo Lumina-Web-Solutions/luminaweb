@@ -58,6 +58,8 @@
             max-width: 80%;
             /* UPDATED: Pulse infinitely until fade-out is triggered */
             animation: pulse 1.5s ease-in-out infinite; 
+            border: none; /* FIX: Explicitly remove any default border */
+            outline: none; /* FIX: Explicitly remove any default outline */
         }
 
         @keyframes pulse {
