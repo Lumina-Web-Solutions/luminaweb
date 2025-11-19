@@ -16,13 +16,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- GSAP (GreenSock Animation Platform) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    
     <!-- Icons Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
         /* Custom Styles */
         html {
-            scroll-behavior: smooth; /* Enables smooth scrolling for anchor links */
+            scroll-behavior: smooth;
         }
         body {
             font-family: 'Poppins', sans-serif;
@@ -30,7 +35,7 @@
             color: #e0e0e0;
             overflow-x: hidden;
             cursor: auto;
-            opacity: 1; /* Site is visible by default */
+            opacity: 1;
         }
         /* SIMPLE CSS Preloader */
         #preloader {
@@ -45,7 +50,6 @@
             justify-content: center;
             align-items: center;
             opacity: 1;
-            /* UPDATED: Removed delay for a faster fade-out */
             transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
             visibility: visible;
         }
@@ -56,10 +60,9 @@
         #preloader .preloader-logo {
             width: 300px;
             max-width: 80%;
-            /* UPDATED: Pulse infinitely until fade-out is triggered */
             animation: pulse 1.5s ease-in-out infinite; 
-            border: none; /* FIX: Explicitly remove any default border */
-            outline: none; /* FIX: Explicitly remove any default outline */
+            border: none; 
+            outline: none; 
         }
 
         @keyframes pulse {
@@ -87,7 +90,7 @@
             color: #007BFF;
         }
         
-        /* ROBUST CSS Button Hover Effects */
+        /* Button Styles */
         .btn-primary {
             background-color: #007BFF;
             transition: all 0.3s ease;
@@ -97,6 +100,16 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
         }
+        .btn-outline {
+            border: 1px solid #333;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            border-color: #007BFF;
+            color: #007BFF;
+        }
+
         .nav-link {
             transition: color 0.3s ease;
             position: relative;
@@ -133,6 +146,19 @@
             border-color: #007BFF;
             transform: translateY(-5px);
         }
+        
+        /* Labs Card */
+        .lab-card {
+            background: linear-gradient(145deg, #1a1a1a, #111);
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .lab-card:hover {
+            border-color: #007BFF;
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -177,10 +203,88 @@
             transform: translateY(0);
         }
 
-        /* NEW: Mobile Menu Styles */
+        /* Mobile Menu Styles */
         #mobile-menu {
             transition: opacity 0.3s ease-in-out;
         }
+        
+        /* Instagram Banner */
+        .insta-banner {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Form Styles */
+        .form-input {
+            background-color: #1f2937; border: 1px solid #374151; color: white;
+            width: 100%; padding: 12px; border-radius: 8px; margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #007BFF;
+        }
+
+        /* Modal Styles */
+        #review-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal-content {
+            background: #121212;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #333;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Custom Cursor - Hide on mobile to prevent sticking */
+        .cursor-follower {
+            position: fixed;
+            top: 0; left: 0; width: 30px; height: 30px;
+            background-color: rgba(0, 123, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s linear;
+            backdrop-filter: blur(2px);
+        }
+        .cursor-follower.hovered {
+            width: 60px; height: 60px;
+            background-color: rgba(0, 123, 255, 0.2);
+        }
+        @media (hover: none) {
+            .cursor-follower { display: none; }
+        }
+        
+        /* Footer Logo Styles */
+        .lumina-power-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            margin-top: 0.75rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .lumina-power-footer:hover { opacity: 1; }
+        .lumina-power-text { font-size: 0.75rem; font-weight: 400; color: #9ca3af; }
+        .lumina-logo-container { line-height: 1.2; text-align: left; }
+        .lumina-logo-text { font-size: 1rem; font-weight: 700; color: #e0e0e0; letter-spacing: 0.05em; }
+        .lumina-logo-text .accent { color: #007BFF; }
+        .lumina-logo-tagline { font-size: 0.5rem; font-weight: 400; color: #9ca3af; letter-spacing: 0.2em; text-transform: uppercase; }
+
     </style>
 </head>
 <body class="antialiased">
@@ -189,6 +293,9 @@
     <div id="preloader">
         <img src="https://raw.githubusercontent.com/alfin-7736/Lumina-Compas/6f60b90340697b796accdf20cc4b1f7059c93c27/Screenshot%202025-09-28%20121335.png" alt="Lumina Web Solutions Logo" class="preloader-logo">
     </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-follower"></div>
 
     <!-- Header -->
     <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -199,11 +306,12 @@
             <!-- Desktop Nav -->
             <nav class="hidden md:flex items-center space-x-4">
                 <a href="#services" class="nav-link px-4 py-2 text-gray-300">Services</a>
-                <a href="#why-us" class="nav-link px-4 py-2 text-gray-300">Why Us</a>
-                <a href="#process" class="nav-link px-4 py-2 text-gray-300">Process</a>
+                <a href="#labs" class="nav-link px-4 py-2 text-gray-300">Labs</a>
+                <a href="#projects" class="nav-link px-4 py-2 text-gray-300">Projects</a>
+                <a href="#testimonials" class="nav-link px-4 py-2 text-gray-300">Reviews</a>
                 <a href="#contact" class="bg-gray-800/50 border border-gray-700 px-5 py-2 rounded-full text-gray-300 nav-link hover:bg-gray-700">Contact</a>
             </nav>
-            <!-- NEW: Mobile Menu Button -->
+            <!-- Mobile Menu Button -->
             <div class="md:hidden">
                 <button id="mobile-menu-btn" class="text-white z-50 relative">
                     <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -213,11 +321,12 @@
         </div>
     </header>
 
-    <!-- NEW: Mobile Menu Overlay -->
+    <!-- Mobile Menu Overlay -->
     <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-black bg-opacity-90 z-40 flex flex-col items-center justify-center space-y-8">
         <a href="#services" class="text-3xl font-bold text-gray-300 nav-link">Services</a>
-        <a href="#why-us" class="text-3xl font-bold text-gray-300 nav-link">Why Us</a>
-        <a href="#process" class="text-3xl font-bold text-gray-300 nav-link">Process</a>
+        <a href="#labs" class="text-3xl font-bold text-gray-300 nav-link">Lumina Labs</a>
+        <a href="#projects" class="text-3xl font-bold text-gray-300 nav-link">Projects</a>
+        <a href="#testimonials" class="text-3xl font-bold text-gray-300 nav-link">Reviews</a>
         <a href="#contact" class="text-3xl font-bold text-gray-300 nav-link">Contact</a>
     </div>
 
@@ -273,56 +382,79 @@
         </div>
     </section>
     
-    <!-- "Why Choose Us" Section -->
-    <section id="why-us" class="py-16 md:py-24 bg-[#101010] fade-in-section">
+    <!-- Lumina Labs Section -->
+    <section id="labs" class="py-16 md:py-24 bg-[#0f0f0f] fade-in-section">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="section-title text-3xl md:text-4xl font-bold">Why Choose Lumina?</h2>
+            <div class="text-center mb-12">
+                <h2 class="section-title text-3xl md:text-4xl font-bold">Lumina Labs</h2>
                 <div class="section-title-line mx-auto"></div>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Where we experiment with the future. Check out our live AI tools tailored for real-world needs.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-                <!-- Feature 1 -->
-                <div class="text-center">
-                    <div class="flex items-center justify-center h-16 w-16 bg-gray-800 rounded-full mx-auto mb-6">
-                        <i class="fas fa-rocket text-2xl accent-blue"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Lab Project 1 -->
+                <div class="lab-card p-6 rounded-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Lumina Compass</h3>
+                        <span class="bg-blue-900 text-blue-200 text-xs px-2 py-1 rounded">AI Travel</span>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-3">Modern & Fast</h3>
-                    <p class="text-gray-400">We build websites using the latest, high-speed technology to ensure your site is fast, secure, and future-proof.</p>
+                    <p class="text-gray-400 mb-6">An intelligent travel planner that generates itineraries, budgets, and maps instantly.</p>
+                    <a href="https://lumina-compass.vercel.app/" target="_blank" class="btn-outline px-4 py-2 rounded text-sm text-white border border-white hover:border-blue-500 hover:text-blue-500 transition">Launch App <i class="fas fa-external-link-alt ml-1"></i></a>
                 </div>
-                <!-- Feature 2 -->
-                <div class="text-center">
-                    <div class="flex items-center justify-center h-16 w-16 bg-gray-800 rounded-full mx-auto mb-6">
-                        <i class="fas fa-mobile-alt text-2xl accent-blue"></i>
+                <!-- Lab Project 2 -->
+                <div class="lab-card p-6 rounded-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">QuickBill Pro</h3>
+                        <span class="bg-green-900 text-green-200 text-xs px-2 py-1 rounded">Finance Tool</span>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-3">Fully Responsive</h3>
-                    <p class="text-gray-400">Your website will look and function perfectly on all devices, from the smallest mobile phone to the largest desktop monitor.</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="text-center">
-                    <div class="flex items-center justify-center h-16 w-16 bg-gray-800 rounded-full mx-auto mb-6">
-                        <i class="fas fa-user-check text-2xl accent-blue"></i>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3">Personalized Service</h3>
-                    <p class="text-gray-400">As a dedicated freelancer, you get direct, personal communication and a website tailored 100% to your unique vision.</p>
+                    <p class="text-gray-400 mb-6">A fast, professional invoice generator for freelancers and small businesses.</p>
+                    <a href="#" class="btn-outline px-4 py-2 rounded text-sm text-white border border-white hover:border-blue-500 hover:text-blue-500 transition">Coming Soon</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Process Section -->
-    <section id="process" class="py-16 md:py-24 bg-gray-800 fade-in-section">
+    <!-- Dynamic Completed Projects Section -->
+    <section id="projects" class="py-16 md:py-24 bg-gray-800 fade-in-section">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="section-title text-3xl md:text-4xl font-bold">The Lumina Method</h2>
+            <div class="text-center mb-16">
+                <h2 class="section-title text-3xl md:text-4xl font-bold">Selected Works</h2>
                 <div class="section-title-line mx-auto"></div>
             </div>
-            <div class="max-w-2xl mx-auto">
-                <!-- Timeline Items -->
-                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">1</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Discover</h3><p class="text-gray-400">We start by diving deep into your brand, understanding your goals, target audience, and unique challenges to build a solid foundation.</p></div></div>
-                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">2</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Design</h3><p class="text-gray-400">Our team crafts a beautiful, user-centric design prototype. We focus on creating an intuitive and engaging experience that reflects your brand.</p></div></div>
-                <div class="timeline-item relative pl-16 pb-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">3</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Develop</h3><p class="text-gray-400">Our expert developers bring the design to life with clean, efficient code, ensuring your site is fast, secure, and perfectly functional.</p></div></div>
-                <div class="timeline-item relative pl-16"><div class="timeline-dot absolute left-0 top-0 w-10 h-10 rounded-full bg-[#121212] flex items-center justify-center transform -translate-x-1/2"><span class="font-bold text-lg">4</span></div><div class="timeline-content"><h3 class="text-2xl font-semibold mb-2 accent-blue">Launch</h3><p class="text-gray-400">After rigorous testing, we deploy your site and ensure a flawless launch. We provide support and guidance to make sure your transition is seamless.</p></div></div>
+            <!-- Projects Grid - Dynamically populated -->
+            <div id="dynamic-projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                 <p class="text-gray-500 text-center col-span-2">Loading projects...</p>
             </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 md:py-24 bg-[#101010] fade-in-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title text-3xl md:text-4xl font-bold">Client Reviews</h2>
+                <div class="section-title-line mx-auto"></div>
+                <!-- Write Review Button -->
+                <button id="write-review-btn" class="mt-6 btn-outline px-6 py-2 rounded-full text-sm font-semibold border-gray-600 text-gray-300 hover:border-blue-500 hover:text-blue-500 transition">
+                    <i class="fas fa-pen mr-2"></i> Write a Review
+                </button>
+            </div>
+            <!-- Reviews Grid - Dynamically populated -->
+            <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <p class="text-gray-500 text-center col-span-2">Loading reviews...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Banner -->
+    <section class="py-12 bg-black border-t border-gray-800 fade-in-section">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://instagram.com/luminawebsolutions" target="_blank" class="inline-flex items-center space-x-3 group">
+                <i class="fab fa-instagram text-4xl insta-banner transition transform group-hover:scale-110"></i>
+                <div class="text-left">
+                    <p class="text-gray-400 text-xs uppercase tracking-widest">Connect With Us</p>
+                    <h3 class="text-white font-bold text-xl group-hover:text-pink-500 transition">@luminawebsolutions</h3>
+                </div>
+            </a>
         </div>
     </section>
 
@@ -334,7 +466,6 @@
             <p class="cta-subtitle max-w-xl mx-auto text-lg text-gray-400 mb-10">
                 Let's discuss how we can build something amazing together. Reach out to us for a free consultation.
             </p>
-            <!-- UPDATED: Ensured this is a mailto link -->
             <a href="mailto:luminawebsolutions@gmail.com" class="btn-primary text-white font-semibold py-4 px-10 rounded-full text-lg shadow-lg inline-block">
                 Contact Us
             </a>
@@ -347,15 +478,192 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="md:col-span-1"><h3 class="text-2xl font-bold text-white mb-4">LUMINA<span class="accent-blue">.</span></h3><p>Crafting digital experiences that captivate, engage, and convert. We are your partners in digital growth.</p></div>
                 <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div><h4 class="font-semibold text-white mb-4">Navigate</h4><ul><li class="mb-2"><a href="#services" class="nav-link text-gray-400">Services</a></li><li class="mb-2"><a href="#why-us" class="nav-link text-gray-400">Why Us</a></li><li class="mb-2"><a href="#process" class="nav-link text-gray-400">Process</a></li><li class="mb-2"><a href="#contact" class="nav-link text-gray-400">Contact</a></li></ul></div>
+                    <div><h4 class="font-semibold text-white mb-4">Navigate</h4><ul><li class="mb-2"><a href="#services" class="nav-link text-gray-400">Services</a></li><li class="mb-2"><a href="#labs" class="nav-link text-gray-400">Lumina Labs</a></li><li class="mb-2"><a href="#projects" class="nav-link text-gray-400">Projects</a></li><li class="mb-2"><a href="#testimonials" class="nav-link text-gray-400">Reviews</a></li><li class="mb-2"><a href="#contact" class="nav-link text-gray-400">Contact</a></li></ul></div>
                     <div><h4 class="font-semibold text-white mb-4">Contact Us</h4><ul><li class="mb-2"><a href="mailto:luminawebsolutions@gmail.com" class="nav-link text-gray-400">luminawebsolutions@gmail.com</a></li><li class="mb-2">Lumina Web Solutions,<br>Changanassery</li></ul></div>
-                    <div><h4 class="font-semibold text-white mb-4">Follow Us</h4><div class="flex space-x-4"><a href="#" class="nav-link text-gray-400">FB</a><a href="#" class="nav-link text-gray-400">IN</a><a href="#" class="nav-link text-gray-400">TW</a></div></div>
+                    <div>
+                        <h4 class="font-semibold text-white mb-4">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <!-- Social Icons -->
+                            <a href="https://www.facebook.com/share/17fxyTcgmQ/" target="_blank" class="nav-link text-gray-400 hover:text-blue-600"><i class="fab fa-facebook text-xl"></i></a>
+                            <a href="https://www.instagram.com/luminawebsolutions/" target="_blank" class="nav-link text-gray-400 hover:text-pink-500"><i class="fab fa-instagram text-xl"></i></a>
+                            <a href="https://www.threads.net/@buildwithlumina" target="_blank" class="nav-link text-gray-400 hover:text-white"><i class="fab fa-threads text-xl"></i></a>
+                            <a href="https://twitter.com" target="_blank" class="nav-link text-gray-400 hover:text-blue-400"><i class="fab fa-twitter text-xl"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="mt-16 pt-8 border-t border-gray-800 text-center text-sm"><p>&copy; 2024 Lumina Web Solutions. All Rights Reserved.</p></div>
+            
+            <!-- Footer Logo -->
+            <div class="mt-16 pt-8 border-t border-gray-800 text-center">
+                <a href="#" class="lumina-power-footer" title="Powered by Lumina Web Solutions">
+                    <span class="lumina-power-text">Powered by</span>
+                    <div class="lumina-logo-container">
+                        <div class="lumina-logo-text">
+                            <span>LUMINA</span><span class="accent-blue">.</span>
+                        </div>
+                        <div class="lumina-logo-tagline">
+                            WEB SOLUTIONS
+                        </div>
+                    </div>
+                </a>
+                <p class="text-xs text-gray-600 mt-4">&copy; 2025 Lumina Web Solutions. All Rights Reserved.</p>
+            </div>
         </div>
     </footer>
 
+    <!-- Review Modal -->
+    <div id="review-modal">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold text-white mb-4">Write a Review</h3>
+            <form id="review-form">
+                <input type="text" id="reviewer-name" placeholder="Your Name" class="form-input" required>
+                <input type="text" id="reviewer-role" placeholder="Your Role (e.g. CEO, Tech Corp)" class="form-input" required>
+                <textarea id="reviewer-text" placeholder="Your Feedback..." class="form-input h-32 resize-none" required></textarea>
+                <div class="flex justify-end gap-4 mt-4">
+                    <button type="button" id="cancel-review-btn" class="px-4 py-2 rounded bg-gray-700 text-white hover:bg-gray-600 transition">Cancel</button>
+                    <button type="submit" class="btn-primary px-6 py-2 rounded transition">Submit Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDye2ZMJOstA80slJc2V8wNdCcMtFCnRDM",
+            authDomain: "lumina-planner.firebaseapp.com",
+            projectId: "lumina-planner",
+            storageBucket: "lumina-planner.firebasestorage.app",
+            messagingSenderId: "281928148765",
+            appId: "1:281928148765:web:81699f1c9502141db563f4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 1. Load Projects Dynamically
+        const projectsQ = query(collection(db, "portfolio"), orderBy("createdAt", "desc"));
+        const projectGrid = document.getElementById('dynamic-projects-grid');
+
+        onSnapshot(projectsQ, (snapshot) => {
+            projectGrid.innerHTML = '';
+            if(snapshot.empty) {
+                projectGrid.innerHTML = '<p class="text-gray-500 col-span-2 text-center">New projects coming soon...</p>';
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const p = doc.data();
+                // Use a placeholder if no image, but generally we won't use image now, just URL icon
+                const imageUrl = `https://placehold.co/800x600/1a1a1a/FFF?text=${encodeURIComponent(p.title)}`;
+                
+                const html = `
+                    <a href="${p.siteUrl}" target="_blank" class="group cursor-pointer fade-in-section is-visible block">
+                        <div class="overflow-hidden rounded-lg mb-4 border border-gray-800 relative bg-gray-900 h-64 flex items-center justify-center">
+                            <!-- Fallback visual using Title -->
+                            <div class="text-center p-6">
+                                <h3 class="text-2xl font-bold text-gray-700 group-hover:text-blue-500 transition">${p.title}</h3>
+                                <i class="fas fa-external-link-alt text-4xl text-gray-800 mt-4 group-hover:text-blue-600 transition transform group-hover:scale-110"></i>
+                            </div>
+                            
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-80 transition duration-300 flex items-center justify-center">
+                                <span class="text-white opacity-0 group-hover:opacity-100 border border-white px-4 py-2 rounded font-medium transform translate-y-4 group-hover:translate-y-0 transition duration-300">Visit Live Site</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white group-hover:text-blue-500 transition flex items-center">
+                            ${p.title} 
+                        </h3>
+                        <p class="text-sm text-gray-400">${p.category}</p>
+                    </a>
+                `;
+                projectGrid.innerHTML += html;
+            });
+        });
+
+        // 2. Load Reviews Dynamically
+        const reviewsQ = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
+        const reviewsGrid = document.getElementById('reviews-grid');
+
+        onSnapshot(reviewsQ, (snapshot) => {
+            reviewsGrid.innerHTML = '';
+            if(snapshot.empty) {
+                // Fallback static reviews if none exist
+                reviewsGrid.innerHTML = `
+                    <div class="bg-gray-800 p-8 rounded-lg border border-gray-700">
+                        <i class="fas fa-quote-left text-4xl accent-blue mb-4"></i>
+                        <p class="text-gray-300 italic mb-6">"Lumina Web Solutions transformed our online presence. The new website is fast, beautiful, and our customers love it."</p>
+                        <div class="flex items-center">
+                            <div class="h-12 w-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">A</div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-white text-lg">Asha K.</h4>
+                                <p class="text-sm text-gray-400">Local Business Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const r = doc.data();
+                const initial = r.name.charAt(0).toUpperCase();
+                const html = `
+                    <div class="bg-gray-800 p-8 rounded-lg border border-gray-700 fade-in-section is-visible">
+                        <i class="fas fa-quote-left text-4xl accent-blue mb-4"></i>
+                        <p class="text-gray-300 italic mb-6">"${r.text}"</p>
+                        <div class="flex items-center">
+                            <div class="h-12 w-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg">${initial}</div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-white text-lg">${r.name}</h4>
+                                <p class="text-sm text-gray-400">${r.role}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                reviewsGrid.innerHTML += html;
+            });
+        });
+
+        // 3. Handle Review Form
+        const reviewModal = document.getElementById('review-modal');
+        const reviewForm = document.getElementById('review-form');
+        const writeReviewBtn = document.getElementById('write-review-btn');
+        const cancelReviewBtn = document.getElementById('cancel-review-btn');
+
+        writeReviewBtn.addEventListener('click', () => { reviewModal.style.display = 'flex'; });
+        cancelReviewBtn.addEventListener('click', () => { reviewModal.style.display = 'none'; });
+
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('reviewer-name').value;
+            const role = document.getElementById('reviewer-role').value;
+            const text = document.getElementById('reviewer-text').value;
+            
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            btn.textContent = "Submitting...";
+            btn.disabled = true;
+
+            try {
+                await addDoc(collection(db, "reviews"), {
+                    name, role, text, createdAt: new Date()
+                });
+                reviewModal.style.display = 'none';
+                reviewForm.reset();
+                alert("Thank you for your review!");
+            } catch (error) {
+                console.error("Review error:", error);
+                alert("Error submitting review. Please try again.");
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -363,10 +671,9 @@
             // --- Preloader ---
             const preloader = document.getElementById('preloader');
             window.addEventListener('load', () => {
-                // Set timeout to match CSS animation
                 setTimeout(() => {
                     preloader.classList.add('loaded');
-                }, 1250); // UPDATED: 3000ms to 1250ms
+                }, 1250); 
             });
 
             // --- Sticky Header ---
@@ -376,10 +683,8 @@
                 if (window.scrollY > 100) {
                     header.classList.add('bg-[#0a0a0a]/80', 'backdrop-blur-sm', 'shadow-lg');
                     if (window.scrollY > lastScrollY) {
-                        // Scrolling Down
                         header.style.transform = 'translateY(-100%)';
                     } else {
-                        // Scrolling Up
                         header.style.transform = 'translateY(0)';
                     }
                     lastScrollY = window.scrollY;
@@ -397,9 +702,7 @@
                         entry.target.classList.add('is-visible');
                     }
                 });
-            }, {
-                threshold: 0.1 // Trigger when 10% of the section is visible
-            });
+            }, { threshold: 0.1 });
 
             sections.forEach(section => {
                 observer.observe(section);
@@ -413,9 +716,7 @@
                         entry.target.classList.add('is-visible');
                     }
                 });
-            }, {
-                threshold: 0.5 // Trigger when 50% of the item is visible
-            });
+            }, { threshold: 0.5 });
             
             timelineItems.forEach(item => {
                 timelineObserver.observe(item);
@@ -433,7 +734,7 @@
                 });
             });
 
-            // --- NEW: Mobile Menu Toggle ---
+            // --- Mobile Menu Toggle ---
             const menuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             const iconOpen = document.getElementById('menu-icon-open');
@@ -447,26 +748,57 @@
             }
 
             menuBtn.addEventListener('click', toggleMenu);
-            // Close menu when a link is clicked
             mobileLinks.forEach(link => {
                 link.addEventListener('click', toggleMenu);
             });
 
 
-            // --- NEW: Smooth Scrolling for ALL anchor links ---
+            // --- Smooth Scrolling for ALL anchor links ---
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
                     const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
+                    if (targetId === '#') {
+                        e.preventDefault();
+                        return;
+                    }
                     
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
+                    if (targetId && targetId.startsWith('#')) {
+                        e.preventDefault();
+                        try {
+                            const targetElement = document.querySelector(targetId);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({
+                                    behavior: 'smooth'
+                                });
+                            }
+                        } catch (error) {
+                            console.warn("Invalid selector:", targetId);
+                        }
                     }
                 });
             });
+            
+            // --- Custom Cursor Logic for Desktop Only ---
+            const cursorFollower = document.querySelector('.cursor-follower');
+            const interactiveElements = document.querySelectorAll('a, button, .magnetic-item, .service-card');
+            
+            if (window.matchMedia("(hover: hover)").matches) {
+                gsap.set(cursorFollower, { xPercent: -50, yPercent: -50 });
+                let mouseX = 0, mouseY = 0;
+                window.addEventListener('mousemove', e => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    gsap.to(cursorFollower, 0.3, { x: mouseX, y: mouseY, ease: "power2.out" });
+                });
+
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => cursorFollower.classList.add('hovered'));
+                    el.addEventListener('mouseleave', () => cursorFollower.classList.remove('hovered'));
+                });
+            } else {
+                // Hide cursor on non-hover devices (mobile/tablet)
+                if(cursorFollower) cursorFollower.style.display = 'none';
+            }
 
         });
     </script>
