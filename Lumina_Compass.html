@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Construction</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Main Page Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden; /* Hide scrollbars from animation */
+            position: relative; /* Needed for background canvas */
+        }
+
+        /* NEW: Animated Particle Background */
+        #particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        /* Ensure content is above the glow */
+        main, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .accent-blue {
+            color: #007BFF;
+        }
+
+        /* NEW: Keyframes for SVG gears */
+        .gear-1 {
+            animation: spin 8s linear infinite;
+            transform-origin: center;
+        }
+        .gear-2 {
+            animation: spin-reverse 8s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+
+        /* Footer Logo Snippet Styles */
+        .lumina-power-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem; /* 8px */
+            text-decoration: none;
+            margin-top: 2rem; /* 32px */
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .lumina-power-footer:hover { opacity: 1; }
+        .lumina-power-text { font-size: 0.75rem; font-weight: 400; color: #9ca3af; }
+        .lumina-logo-container { line-height: 1.2; text-align: left; }
+        .lumina-logo-text { font-size: 1rem; font-weight: 700; color: #e0e0e0; letter-spacing: 0.05em; }
+        .lumina-logo-text .accent { color: #007BFF; }
+        .lumina-logo-tagline { font-size: 0.5rem; font-weight: 400; color: #9ca3af; letter-spacing: 0.2em; text-transform: uppercase; }
+    </style>
+</head>
+<body class="flex flex-col">
+
+    <!-- NEW: Animated Particle Background Canvas -->
+    <canvas id="particle-bg"></canvas>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col justify-center items-center text-center p-6">
+        <div class="mb-8">
+            <!-- NEW: Custom SVG Gear Animation -->
+            <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="text-blue-600" fill="currentColor">
+                <g class="gear-1">
+                    <path d="M 50.000 36.341 A 3.659 3.659 0 0 0 50.000 29.023 A 3.659 3.659 0 0 0 50.000 36.341 M 37.893 39.923 A 3.659 3.659 0 0 0 34.312 33.763 A 3.659 3.659 0 0 0 31.731 39.923 M 31.731 60.077 A 3.659 3.659 0 0 0 34.312 66.237 A 3.659 3.659 0 0 0 37.893 60.077 M 50.000 63.659 A 3.659 3.659 0 0 0 50.000 70.977 A 3.659 3.659 0 0 0 50.000 63.659 M 62.107 60.077 A 3.659 3.659 0 0 0 65.688 66.237 A 3.659 3.659 0 0 0 68.269 60.077 M 68.269 39.923 A 3.659 3.659 0 0 0 65.688 33.763 A 3.659 3.659 0 0 0 62.107 39.923 M 50.000 25.000 A 25.000 25.000 0 1 0 50.000 75.000 A 25.000 25.000 0 1 0 50.000 25.000 M 50.000 32.682 A 17.318 17.318 0 1 1 50.000 67.318 A 17.318 17.318 0 1 1 50.000 32.682 M 50.000 40.909 A 9.091 9.091 0 1 0 50.000 59.091 A 9.091 9.091 0 1 0 50.000 40.909"/>
+                </g>
+                <g class="gear-2" style="transform: translate(30px, -30px) scale(0.6);">
+                    <path d="M 50.000 36.341 A 3.659 3.659 0 0 0 50.000 29.023 A 3.659 3.659 0 0 0 50.000 36.341 M 37.893 39.923 A 3.659 3.659 0 0 0 34.312 33.763 A 3.659 3.659 0 0 0 31.731 39.923 M 31.731 60.077 A 3.659 3.659 0 0 0 34.312 66.237 A 3.659 3.659 0 0 0 37.893 60.077 M 50.000 63.659 A 3.659 3.659 0 0 0 50.000 70.977 A 3.659 3.659 0 0 0 50.000 63.659 M 62.107 60.077 A 3.659 3.659 0 0 0 65.688 66.237 A 3.659 3.659 0 0 0 68.269 60.077 M 68.269 39.923 A 3.659 3.659 0 0 0 65.688 33.763 A 3.659 3.659 0 0 0 62.107 39.923 M 50.000 25.000 A 25.000 25.000 0 1 0 50.000 75.000 A 25.000 25.000 0 1 0 50.000 25.000 M 50.000 32.682 A 17.318 17.318 0 1 1 50.000 67.318 A 17.318 17.318 0 1 1 50.000 32.682 M 50.000 40.909 A 9.091 9.091 0 1 0 50.000 59.091 A 9.091 9.091 0 1 0 50.000 40.909"/>
+                </g>
+            </svg>
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            Our Site is Getting an Upgrade
+        </h1>
+        
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mb-8">
+            We are working hard to bring you a new and improved experience. We will be back online shortly!
+        </p>
+        
+        <div class="text-gray-300">
+            <p class="font-semibold">Need to get in touch?</p>
+            <p>Email us at: 
+                <a href="mailto:luminawebsolutions@gmail.com" class="font-bold accent-blue hover:underline">
+                    luminawebsolutions@gmail.com
+                </a>
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer with Your Logo Snippet -->
+    <footer class="w-full p-8 text-center">
+        <a href="https://www.luminaweb.online/" target="_blank" rel="noopener noreferrer" class="lumina-power-footer" title="Powered by Lumina Web Solutions">
+            <span class="lumina-power-text">Powered by</span>
+            <div class="lumina-logo-container">
+                <div class="lumina-logo-text">
+                    <!-- FIX: Changed class from "accent-blue" to "accent" to match the CSS -->
+                    <span>LUMINA</span><span class="accent">.</span>
+                </div>
+                <div class="lumina-logo-tagline">
+                    WEB SOLUTIONS
+                </div>
+            </div>
+        </a>
+    </footer>
+
+    <!-- NEW: JavaScript for Particle Animation -->
+    <script>
+        const canvas = document.getElementById('particle-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+
+        // Particle class
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        // Create particle array
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 0.5;
+                let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.4) - 0.2;
+                let directionY = (Math.random() * 0.4) - 0.2;
+                let color = 'rgba(0, 123, 255, 0.5)'; // Accent color
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+        }
+
+        init();
+        animate();
+
+        // Resize event
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+    </script>
+
+</body>
+</html>
