@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Admin - Manage Portfolio & Reviews</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #0a0a0a; color: #e0e0e0; }
+        .form-input {
+            background-color: #1f2937; border: 1px solid #374151; color: white;
+            width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;
+        }
+        .btn-primary {
+            background-color: #007BFF; color: white; padding: 10px 20px;
+            border-radius: 8px; font-weight: 600; width: 100%; transition: 0.3s;
+        }
+        .btn-primary:hover { background-color: #0056b3; }
+        .project-card {
+            background-color: #121212; border: 1px solid #333; padding: 15px;
+            border-radius: 8px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px;
+        }
+        .review-card {
+            background-color: #1f2937; padding: 15px; border-radius: 8px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        .delete-btn { 
+            color: #ef4444; 
+            cursor: pointer; 
+            padding: 8px 12px; 
+            border-radius: 4px; 
+            background-color: rgba(239, 68, 68, 0.1);
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+        }
+        .delete-btn:hover { 
+            background-color: rgba(239, 68, 68, 0.2); 
+            border-color: #ef4444;
+        }
+        
+        /* Custom Modal Styles */
+        #delete-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: #1f2937;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid #374151;
+        }
+        
+        #login-screen, #dashboard-screen { display: none; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Custom Delete Confirmation Modal -->
+    <div id="delete-modal" class="flex">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold text-white mb-2" id="modal-title">Delete Project?</h3>
+            <p class="text-gray-400 mb-6" id="modal-body">Are you sure you want to remove this project? This cannot be undone.</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-delete-btn" class="px-4 py-2 rounded bg-gray-700 text-white hover:bg-gray-600">Cancel</button>
+                <button id="confirm-delete-btn" class="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="w-full max-w-md bg-gray-900 p-8 rounded-xl border border-gray-800">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">Lumina Admin</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Admin Email" class="form-input" required>
+            <input type="password" id="password" placeholder="Password" class="form-input" required>
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+        <p id="login-error" class="text-red-500 text-sm mt-3 text-center"></p>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="w-full max-w-6xl mx-auto py-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-white">Lumina CMS Dashboard</h1>
+            <button id="logout-btn" class="text-gray-400 hover:text-white">Logout</button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Portfolio Management (Left Column) -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Add Project Form -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 h-fit">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Manage Portfolio (Completed Sites)</h3>
+                    <form id="add-project-form" class="grid grid-cols-2 gap-4">
+                        <input type="text" id="p-title" placeholder="Project Title" class="form-input col-span-2" required>
+                        <input type="text" id="p-category" placeholder="Category" class="form-input" required>
+                        <input type="url" id="p-url" placeholder="Live Site URL" class="form-input" required>
+                        <button type="submit" class="btn-primary col-span-2">Add New Project</button>
+                    </form>
+                </div>
+
+                <!-- Existing Projects List -->
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-800">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Live Projects List</h3>
+                    <div id="projects-list" class="space-y-2">
+                        <p class="text-gray-500 text-sm">Loading projects...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Management (Right Column) -->
+            <div class="lg:col-span-1 bg-gray-900 p-6 rounded-xl border border-gray-800 h-fit">
+                <h3 class="text-xl font-semibold mb-4 text-white">Client Reviews</h3>
+                <div id="reviews-list" class="space-y-3">
+                    <p class="text-gray-500 text-sm">Loading reviews...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDye2ZMJOstA80slJc2V8wNdCcMtFCnRDM",
+            authDomain: "lumina-planner.firebaseapp.com",
+            projectId: "lumina-planner",
+            storageBucket: "lumina-planner.firebasestorage.app",
+            messagingSenderId: "281928148765",
+            appId: "1:281928148765:web:81699f1c9502141db563f4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let itemToDelete = { id: null, type: null }; // Type: 'project' or 'review'
+        const deleteModal = document.getElementById('delete-modal');
+
+        // --- AUTH LOGIC ---
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard-screen').style.display = 'block';
+                loadProjects();
+                loadReviews();
+            } else {
+                document.getElementById('login-screen').style.display = 'block';
+                document.getElementById('dashboard-screen').style.display = 'none';
+            }
+        });
+
+        document.getElementById('login-form').addEventListener('submit', e => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            signInWithEmailAndPassword(auth, email, password).catch(err => {
+                document.getElementById('login-error').textContent = "Invalid Login: " + err.message;
+            });
+        });
+        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+
+        // --- PORTFOLIO LOGIC ---
+        document.getElementById('add-project-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const title = document.getElementById('p-title').value;
+            const category = document.getElementById('p-category').value;
+            const siteUrl = document.getElementById('p-url').value;
+            
+            const btn = e.target.querySelector('button');
+            btn.textContent = "Adding...";
+            btn.disabled = true;
+
+            try {
+                await addDoc(collection(db, "portfolio"), { title, category, siteUrl, createdAt: new Date() });
+                e.target.reset();
+            } catch (error) {
+                alert("Error adding project: " + error.message);
+            } finally {
+                btn.textContent = "Add New Project";
+                btn.disabled = false;
+            }
+        });
+
+        function loadProjects() {
+            const q = query(collection(db, "portfolio"), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('projects-list');
+                list.innerHTML = '';
+                
+                if(snapshot.empty) {
+                    list.innerHTML = '<p class="text-gray-500">No projects yet.</p>';
+                    return;
+                }
+
+                snapshot.forEach(docSnap => {
+                    const p = docSnap.data();
+                    const div = document.createElement('div');
+                    div.className = 'project-card';
+                    div.innerHTML = `
+                        <div class="flex items-center gap-4 overflow-hidden">
+                            <div class="w-10 h-10 flex-shrink-0 rounded bg-blue-900 text-blue-200 flex items-center justify-center">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-white text-sm truncate">${p.title}</h4>
+                                <p class="text-xs text-gray-400 truncate">${p.siteUrl}</p>
+                            </div>
+                        </div>
+                        <button class="delete-btn flex-shrink-0 ml-2" data-id="${docSnap.id}" data-type="project" title="Delete Project">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    `;
+                    list.appendChild(div);
+                });
+            }, (error) => {
+                document.getElementById('projects-list').innerHTML = `<p class="text-red-500">Error loading projects: ${error.message}</p>`;
+            });
+        }
+        
+        // --- REVIEW LOGIC ---
+        function loadReviews() {
+            const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('reviews-list');
+                list.innerHTML = '';
+
+                if(snapshot.empty) {
+                    list.innerHTML = '<p class="text-gray-500">No customer reviews yet.</p>';
+                    return;
+                }
+
+                snapshot.forEach(docSnap => {
+                    const r = docSnap.data();
+                    const div = document.createElement('div');
+                    div.className = 'review-card';
+                    div.innerHTML = `
+                        <div class="flex-grow min-w-0 pr-4">
+                            <p class="text-sm italic text-gray-300">"${r.text.substring(0, 70)}..."</p>
+                            <h4 class="font-bold text-white mt-1 text-sm">${r.name}</h4>
+                            <p class="text-xs text-gray-400">${r.role}</p>
+                        </div>
+                        <button class="delete-btn flex-shrink-0" data-id="${docSnap.id}" data-type="review" title="Delete Review">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    `;
+                    list.appendChild(div);
+                });
+            }, (error) => {
+                document.getElementById('reviews-list').innerHTML = `<p class="text-red-500">Error loading reviews: ${error.message}</p>`;
+            });
+        }
+        
+        // --- UNIVERSAL DELETE HANDLER ---
+        document.body.addEventListener('click', (e) => {
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (deleteBtn) {
+                itemToDelete.id = deleteBtn.dataset.id;
+                itemToDelete.type = deleteBtn.dataset.type;
+                
+                document.getElementById('modal-title').textContent = `Delete ${itemToDelete.type === 'project' ? 'Project' : 'Review'}?`;
+                document.getElementById('modal-body').textContent = `Are you sure you want to remove this ${itemToDelete.type}? This cannot be undone.`;
+                deleteModal.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('cancel-delete-btn').addEventListener('click', () => {
+            deleteModal.style.display = 'none';
+            itemToDelete.id = null;
+        });
+
+        document.getElementById('confirm-delete-btn').addEventListener('click', async () => {
+            if (itemToDelete.id && itemToDelete.type) {
+                const collectionName = itemToDelete.type === 'project' ? 'portfolio' : 'reviews';
+                try {
+                    await deleteDoc(doc(db, collectionName, itemToDelete.id));
+                    deleteModal.style.display = 'none';
+                } catch (error) {
+                    console.error("Delete failed:", error);
+                    alert(`Could not delete: ${error.message}`);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
