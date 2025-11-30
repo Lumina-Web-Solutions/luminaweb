@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap");
+
+:root {
+    --bg-dark: #0a0a0a;
+    --primary-blue: #007BFF;
+    --card-dark: #1f2937;
+    --text-light: #e0e0e0;
+    --border-color: #374151;
+    --win-glow: rgba(0, 123, 255, 0.7);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  color: var(--text-light);
+  font-size: 32px;
+  padding: 10px 40px;
+  background-color: var(--card-dark);
+  border-radius: 50px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  word-spacing: 3px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+h1 span {
+    color: var(--primary-blue);
+}
+
+.game-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--card-dark);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 25px;
+  transition: background-color 0.2s;
+}
+
+.box:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.box img {
+  width: 65px; /* Slightly smaller for cleaner look */
+  filter: drop-shadow(0 0 5px rgba(0, 123, 255, 0.5));
+}
+
+.info-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.status {
+  margin: 20px 0;
+  padding: 10px 40px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  border: 1px solid var(--primary-blue);
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+}
+
+button {
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-light);
+  background-color: var(--primary-blue);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.win {
+  animation: winAnim 1s infinite alternate;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+@keyframes winAnim {
+  0% {
+    box-shadow: 0 0 15px var(--win-glow);
+    transform: scale(1.0);
+  }
+  100% {
+    box-shadow: 0 0 30px var(--win-glow);
+    transform: scale(1.02);
+  }
+}
+
+/* Footer Snippet Styles */
+.footer-snippet {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+.lumina-power-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    opacity: 0.7;
+    color: #9ca3af;
+    transition: opacity 0.3s ease;
+}
+.lumina-power-footer:hover { opacity: 1; }
+.lumina-power-text { font-size: 0.7rem; font-weight: 400; }
+.lumina-logo-container { line-height: 1.2; text-align: left; }
+.lumina-logo-text { font-size: 0.9rem; font-weight: 700; color: var(--text-light); letter-spacing: 0.05em; }
+.lumina-logo-text .accent { color: var(--primary-blue); }
